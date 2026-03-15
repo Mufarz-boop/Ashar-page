@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Happy Birthday Kakak! 🎉</title>
+    <title>Secret Page</title>
     
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎂</text></svg>">
@@ -105,11 +105,11 @@
         .countdown-icon {
             font-size: 5rem;
             margin-bottom: 20px;
-            animation: float-icon 3s ease-in-out infinite;
+            animation: bounce linear infinite;
             filter: drop-shadow(0 0 20px rgba(255,182,193,0.6));
         }
 
-        @keyframes float-icon {
+        @keyframes bounce {
             0%, 100% { transform: translateY(0) rotate(-5deg); }
             50% { transform: translateY(-15px) rotate(5deg); }
         }
@@ -599,17 +599,6 @@
 
         .nav-item.active i {
             animation: wiggle 2s infinite;
-        }
-
-        .nav-badge {
-            position: absolute;
-            right: 15px;
-            background: white;
-            color: var(--soft-pink);
-            font-size: 0.7rem;
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-weight: 700;
         }
 
         .nav-item.active .nav-badge {
@@ -1436,37 +1425,36 @@
         <div class="countdown-stars" id="countdown-stars"></div>
         
         <div class="countdown-container">
-            <div class="countdown-icon">⏰</div>
-            <h1 class="countdown-title">Coming Soon...</h1>
-            <p class="countdown-subtitle">Website ini akan terbuka saat ulang tahun Kakak!</p>
+            <h1 class="countdown-title">Secret Page</h1>
+            <p class="countdown-subtitle">Website ini akan terbuka ketika.....!</p>
             
             <div class="countdown-boxes" id="countdown-boxes">
                 <div class="countdown-box">
                     <span class="countdown-number" id="cd-days">00</span>
-                    <div class="countdown-label">Hari</div>
+                    <div class="countdown-label">Days</div>
                 </div>
                 <div class="countdown-box">
                     <span class="countdown-number" id="cd-hours">00</span>
-                    <div class="countdown-label">Jam</div>
+                    <div class="countdown-label">Hours</div>
                 </div>
                 <div class="countdown-box">
                     <span class="countdown-number" id="cd-minutes">00</span>
-                    <div class="countdown-label">Menit</div>
+                    <div class="countdown-label">Minutes</div>
                 </div>
                 <div class="countdown-box">
                     <span class="countdown-number" id="cd-seconds">00</span>
-                    <div class="countdown-label">Detik</div>
+                    <div class="countdown-label">Seconds</div>
                 </div>
             </div>
 
-            <div class="countdown-date">🎯 Target: 27 April 2026, 00:00:00</div>
+            <div class="countdown-date">🎯 Terbuka Ketika Waktunya Telah Tiba</div>
             
             <div class="countdown-complete" id="countdown-complete">
-                <div class="countdown-icon">🎉</div>
-                <h2 class="countdown-title">Waktunya!</h2>
-                <p class="countdown-message">Selamat Ulang Tahun Kakak!</p>
+                <div class="countdown-icon">`(*>﹏<*)′</div>
+                <h2 class="countdown-title">Welcome!</h2>
+                <p class="countdown-message">Click the button to enter!</p>
                 <button class="unlock-btn" onclick="unlockWebsite()">
-                    <i class="fas fa-gift"></i> Buka Kejutan
+                    <i class="fas fa-gift"></i> Enter
                 </button>
             </div>
         </div>
@@ -1481,7 +1469,7 @@
 
         <div class="loading-container" id="loading-container">
             <div class="cake-wrapper">🎂</div>
-            <div class="loading-text">LOADING</div>
+            <div class="loading-text">Redirecting...</div>
             <div class="progress-container">
                 <div class="progress-bar-loading" id="progress-bar"></div>
             </div>
@@ -1494,7 +1482,7 @@
                 <span id="type-text"></span><span class="cursor"></span>
             </div>
             <button class="enter-btn" id="enter-btn" onclick="enterSite()">
-                <i class="fas fa-gift"></i> Buka Hadiah
+                <i class="fas fa-gift"></i> Come See!
             </button>
         </div>
     </div>
@@ -1517,14 +1505,14 @@
                 <button class="sidebar-close" onclick="toggleSidebar()">
                     <i class="fas fa-times"></i>
                 </button>
-                <div class="sidebar-title">🎉 Birthday!</div>
-                <div class="sidebar-subtitle">Untuk Kakak Tersayang</div>
+                <div class="sidebar-title">Happy Birthday!</div>
+                <div class="sidebar-subtitle">Untuk Kak Rinrin</div>
             </div>
 
             <!-- Clock Widget -->
             <div class="sidebar-clock">
-                <div class="clock-day" id="sidebar-day">Senin</div>
-                <div class="clock-date" id="sidebar-date">1 Januari 2024</div>
+                <div class="clock-day" id="sidebar-day">Monday</div>
+                <div class="clock-date" id="sidebar-date">1 January 2024</div>
                 <div class="clock-time-main">
                     <span id="sidebar-hours">00</span>:<span id="sidebar-minutes">00</span><span class="clock-seconds" id="sidebar-seconds">:00</span>
                 </div>
@@ -1534,41 +1522,38 @@
             <div class="nav-menu">
                 <div class="nav-item active" onclick="navigateTo('home')" data-page="home">
                     <i class="fas fa-home"></i>
-                    <span>Beranda</span>
+                    <span>Home</span>
                 </div>
                 
                 <div class="nav-item" onclick="navigateTo('letter')" data-page="letter">
                     <i class="fas fa-envelope"></i>
-                    <span>Surat Spesial</span>
-                    <span class="nav-badge">1</span>
+                    <span>A Note for You</span>
                 </div>
                 
                 <div class="nav-item" onclick="navigateTo('gallery')" data-page="gallery">
                     <i class="fas fa-images"></i>
-                    <span>Memories</span>
-                    <span class="nav-badge">3</span>
+                    <span>Memory Lane</span>
                 </div>
                 
                 <div class="nav-item" onclick="navigateTo('music')" data-page="music">
                     <i class="fas fa-music"></i>
-                    <span>Playlist</span>
-                    <span class="nav-badge">5</span>
+                    <span>Songs That Remind Me of You</span>
                 </div>
                 
                 <div class="nav-item" onclick="navigateTo('gift')" data-page="gift">
                     <i class="fas fa-gift"></i>
-                    <span>Hadiah</span>
+                    <span>A Little Suprise</span>
                 </div>
 
                 <div class="nav-item special" onclick="navigateTo('pesan')" data-page="pesan">
                     <i class="fas fa-heart"></i>
-                    <span>Pesan Dariku</span>
+                    <span>Before You Go</span>
                 </div>
             </div>
 
             <div class="sidebar-footer">
-                Made with 💖 by Ashar<br>
-                27 April 2026
+                Created on 15 March 2026<br>
+                by Muhammad Arafat Firnansyah
             </div>
         </nav>
 
@@ -1584,7 +1569,7 @@
                 <div class="home-content">
                     <div class="home-icon">🎉</div>
                     <h1 class="home-title">Happy Birthday</h1>
-                    <span class="home-name">Kakak Tersayang</span>
+                    <span class="home-name">Kak Rinrin</span>
                     <p class="home-message">
                         Selamat datang! Ini adalah website spesial yang kubuat hanya untukmu. 
                         Jelajahi setiap menu di sidebar untuk melihat semua kejutan yang telah aku siapkan! 💕
@@ -1598,17 +1583,17 @@
 
             <!-- LETTER PAGE -->
             <section class="page" id="page-letter">
-                <h2 class="page-title">Surat Spesial 💌</h2>
+                <h2 class="page-title">Ucapan dariku 💌</h2>
                 <div class="letter-container">
                     <div class="envelope" onclick="toggleLetter(this)">
                         <h3>Ada Surat Untukmu!</h3>
                         <p>Klik buat buka ya~</p>
                         
                         <div class="letter-content">
-                            <div class="letter-header">Untuk Kakak Tersayang,</div>
+                            <div class="letter-header">Untuk Kak Rinrin,</div>
                             <div class="letter-body">
                                 <p>
-                                    Hai kakak! 🌸<br><br>
+                                    Hai kak! 🌸<br><br>
                                     Selamat ulang tahun! Makasih udah jadi kakak terbaik buat aku. Meski kita seangkatan, tapi aku tetap respect manggil kamu kakak soalnya kamu lebih dewasa (dan lebih tua 1 tahun wkwk 😝).
                                 </p>
                                 <p>
@@ -1627,12 +1612,12 @@
 
             <!-- GALLERY PAGE -->
             <section class="page" id="page-gallery">
-                <h2 class="page-title">Memories Kita 📁</h2>
+                <h2 class="page-title">Gallery 📁</h2>
                 <div class="gallery-container">
                     <div class="file-explorer">
                         <div class="explorer-header">
                             <i class="fas fa-folder-open"></i>
-                            <span>static/images/memories/</span>
+                            <span>static/gallery/folder/</span>
                         </div>
                         <div class="explorer-body" id="folderContainer"></div>
                     </div>
@@ -1649,7 +1634,7 @@
 
             <!-- MUSIC PAGE -->
             <section class="page" id="page-music">
-                <h2 class="page-title">Our Playlist 🎵</h2>
+                <h2 class="page-title">Songs That Remind Me of You</h2>
                 <div class="music-container">
                     <div class="vinyl-player">
                         <div class="vinyl" id="vinyl"></div>
@@ -1663,12 +1648,12 @@
                         </div>
                         
                         <button class="play-btn" onclick="togglePlay()" id="playBtn">
-                            <i class="fas fa-play"></i> Putar Lagu
+                            <i class="fas fa-play"></i> Play the song
                         </button>
                     </div>
 
                     <p style="font-family: 'Caveat', cursive; font-size: 1.5rem; color: var(--soft-pink); margin-top: 20px; text-align: center;">
-                        "Songs That Remind Me of You"
+                        "I poured my feelings into this"
                     </p>
                 </div>
             </section>
@@ -1720,11 +1705,11 @@
                         </div>
 
                         <p style="font-family: 'Caveat', cursive; font-size: 1.8rem; color: var(--soft-pink); text-align: center; margin-top: 30px;">
-                            Happy Birthday Kakak! 🎂🎈
+                            Sekali lagi, Happy Birthday Kakak! 🎂🎈
                         </p>
                         
                         <button class="play-btn" onclick="resetGift()" style="margin-top: 20px;">
-                            <i class="fas fa-redo"></i> Buka Lagi
+                            <i class="fas fa-redo"></i> Reset
                         </button>
                     </div>
                 </div>
@@ -1761,7 +1746,7 @@
                         </div>
                         
                         <div class="pesan-signature">- Ashar</div>
-                        <div class="pesan-date">27 April 2026</div>
+                        <div class="pesan-date">15 March 2026</div>
                     </div>
                 </div>
             </section>
@@ -1862,9 +1847,9 @@
         function updateClock() {
             const now = new Date();
             
-            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
-                           'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                           'July', 'August', 'September', 'October', 'November', 'December'];
             
             const dayName = days[now.getDay()];
             const date = now.getDate();
@@ -1964,7 +1949,7 @@
 
         function createBalloons() {
             const balloonsContainer = document.getElementById('balloons');
-            const balloonEmojis = ['🎈', '🎉', '🎊', '💖', '✨'];
+            const balloonEmojis = ['R', 'A', 'Z', 'I', 'T', 'A', 'N', 'U', 'R', 'I', 'N'];
             
             for (let i = 0; i < 10; i++) {
                 const balloon = document.createElement('div');
@@ -2023,10 +2008,12 @@
             
             setTimeout(() => {
                 const texts = [
-                    "Hai Kakak! 👋",
-                    "Ada sesuatu yang spesial buatmu...",
-                    "Dibuat dengan penuh ❤️",
-                    "Yuk, lihat kejutannya!"
+                    "Hai Kak Rinrin! 👋",
+                    "Aku mau nunjukin sesuatu ke kamu...",
+                    "Sebenarnya ini udah aku siapin dari lama.",
+                    "Mungkin sederhana sih...",
+                    "Tapi aku harap kamu suka.",
+                    "Mau lihat? kalau mau klik tombol di bawah ini."
                 ];
                 let currentText = 0;
                 
