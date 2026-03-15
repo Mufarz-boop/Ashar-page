@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Happy Birthday Kakak! 🎉</title>
     
-    <!-- Favicon & Icons -->
+    <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎂</text></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎂</text></svg>">
     <meta name="theme-color" content="#FFB6C1">
@@ -54,6 +54,253 @@
             font-size: 16px;
             line-height: 1.6;
         }
+
+        /* ============================================
+           LOADING & INTRO SCREEN
+           ============================================ */
+        
+        #intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Stars Background */
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        /* Floating Balloons */
+        .balloon {
+            position: absolute;
+            font-size: 2rem;
+            animation: float-up 8s linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Loading Container */
+        .loading-container {
+            text-align: center;
+            z-index: 10;
+            max-width: 90%;
+        }
+
+        /* Cake Animation */
+        .cake-wrapper {
+            font-size: 5rem;
+            margin-bottom: 30px;
+            animation: cake-bounce 2s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(255,182,193,0.6));
+        }
+
+        @keyframes cake-bounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.1); }
+        }
+
+        /* Loading Text */
+        .loading-text {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            color: var(--soft-pink);
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 300px;
+            max-width: 80vw;
+            height: 6px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 auto 15px;
+            box-shadow: 0 0 10px rgba(255,182,193,0.3);
+        }
+
+        .progress-bar-loading {
+            height: 100%;
+            background: linear-gradient(90deg, var(--soft-pink), var(--peach), var(--mint));
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 20px var(--soft-pink);
+        }
+
+        .percentage {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Intro Content (Hidden Initially) */
+        .intro-content {
+            display: none;
+            text-align: center;
+            z-index: 10;
+            animation: fadeIn 1s ease;
+        }
+
+        .intro-title {
+            font-family: 'Caveat', cursive;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            color: var(--soft-pink);
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(255,182,193,0.8);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .intro-title.show {
+            animation: slide-up 0.8s ease forwards;
+        }
+
+        @keyframes slide-up {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .typewriter {
+            font-family: 'Quicksand', sans-serif;
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: white;
+            margin-bottom: 40px;
+            min-height: 2em;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1.2em;
+            background: var(--soft-pink);
+            margin-left: 5px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Enter Button */
+        .enter-btn {
+            background: linear-gradient(135deg, var(--soft-pink), var(--peach));
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255,182,193,0.4);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: scale(0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .enter-btn.show {
+            animation: pop-in 0.6s ease forwards;
+        }
+
+        @keyframes pop-in {
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .enter-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(255,182,193,0.6);
+        }
+
+        .enter-btn:active {
+            transform: scale(0.95);
+        }
+
+        .enter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .enter-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Transition Overlay */
+        .transition-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--soft-pink);
+            z-index: 9998;
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.8s ease-in-out;
+        }
+
+        .transition-overlay.active {
+            transform: scaleY(1);
+        }
+
+        /* Hide Main Content Initially */
+        #main-content {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease;
+        }
+
+        #main-content.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ============================================
+           MAIN CONTENT STYLES (Your Original Styles)
+           ============================================ */
 
         /* Floating blobs */
         .blob {
@@ -104,14 +351,12 @@
             66% { transform: translate(-20px, 20px) scale(0.9); }
         }
 
-        /* Container */
         .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
         }
 
-        /* Section styling */
         section {
             min-height: 100vh;
             display: flex;
@@ -122,7 +367,6 @@
             position: relative;
         }
 
-        /* Hero Section */
         .hero-content {
             text-align: center;
             width: 100%;
@@ -259,9 +503,7 @@
             transform: scale(1.02);
         }
 
-        .envelope.open::before {
-            display: none;
-        }
+        .envelope.open::before { display: none; }
 
         .letter-content {
             display: none;
@@ -270,13 +512,8 @@
             animation: fadeIn 0.8s ease;
         }
 
-        .envelope.open .letter-content {
-            display: block;
-        }
-
-        .envelope.open h3, .envelope.open > p {
-            display: none;
-        }
+        .envelope.open .letter-content { display: block; }
+        .envelope.open h3, .envelope.open > p { display: none; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
@@ -297,9 +534,7 @@
             margin-bottom: 20px;
         }
 
-        .letter-body p {
-            margin-bottom: 15px;
-        }
+        .letter-body p { margin-bottom: 15px; }
 
         .letter-signature {
             font-family: 'Caveat', cursive;
@@ -309,10 +544,8 @@
             margin-top: 20px;
         }
 
-        /* Gallery Section - Folder Style */
-        .gallery-section {
-            background: rgba(255,255,255,0.2);
-        }
+        /* Gallery Section */
+        .gallery-section { background: rgba(255,255,255,0.2); }
 
         .section-title {
             text-align: center;
@@ -322,7 +555,6 @@
             color: var(--text-dark);
         }
 
-        /* File Explorer Container */
         .file-explorer {
             background: var(--white);
             border-radius: 20px;
@@ -333,7 +565,6 @@
             border: 3px solid var(--folder-border);
         }
 
-        /* Explorer Header */
         .explorer-header {
             background: linear-gradient(135deg, var(--soft-pink), var(--peach));
             padding: 15px 20px;
@@ -344,16 +575,13 @@
             font-weight: 600;
         }
 
-        .explorer-header i {
-            font-size: 1.2rem;
-        }
+        .explorer-header i { font-size: 1.2rem; }
 
         .explorer-path {
             font-family: 'Quicksand', sans-serif;
             font-size: clamp(0.85rem, 3vw, 0.95rem);
         }
 
-        /* Explorer Body */
         .explorer-body {
             padding: 20px;
             min-height: 300px;
@@ -361,7 +589,6 @@
             overflow-y: auto;
         }
 
-        /* Folder Item */
         .folder-item {
             display: flex;
             align-items: center;
@@ -381,14 +608,9 @@
             box-shadow: 0 5px 15px rgba(255,182,193,0.2);
         }
 
-        .folder-icon {
-            font-size: 2.5rem;
-            color: var(--soft-pink);
-        }
+        .folder-icon { font-size: 2.5rem; color: var(--soft-pink); }
 
-        .folder-info {
-            flex: 1;
-        }
+        .folder-info { flex: 1; }
 
         .folder-name {
             font-weight: 700;
@@ -408,11 +630,8 @@
             transition: transform 0.3s;
         }
 
-        .folder-item.open .folder-arrow {
-            transform: rotate(90deg);
-        }
+        .folder-item.open .folder-arrow { transform: rotate(90deg); }
 
-        /* Folder Content (Photos) */
         .folder-content {
             display: none;
             padding: 15px;
@@ -422,9 +641,7 @@
             animation: slideDown 0.4s ease;
         }
 
-        .folder-content.show {
-            display: block;
-        }
+        .folder-content.show { display: block; }
 
         @keyframes slideDown {
             from { opacity: 0; transform: translateY(-10px); }
@@ -438,9 +655,7 @@
         }
 
         @media (min-width: 500px) {
-            .photos-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
+            .photos-grid { grid-template-columns: repeat(3, 1fr); }
         }
 
         .photo-thumb {
@@ -488,16 +703,9 @@
             padding: 20px;
         }
 
-        .lightbox.show {
-            display: flex;
-            animation: fadeIn 0.3s;
-        }
+        .lightbox.show { display: flex; animation: fadeIn 0.3s; }
 
-        .lightbox-content {
-            position: relative;
-            max-width: 90%;
-            max-height: 90%;
-        }
+        .lightbox-content { position: relative; max-width: 90%; max-height: 90%; }
 
         .lightbox img {
             max-width: 100%;
@@ -526,9 +734,7 @@
         }
 
         /* Music Section */
-        .music-section {
-            background: rgba(255,255,255,0.3);
-        }
+        .music-section { background: rgba(255,255,255,0.3); }
 
         .music-container {
             width: 100%;
@@ -557,9 +763,7 @@
             position: relative;
         }
 
-        .vinyl.playing {
-            animation-play-state: running;
-        }
+        .vinyl.playing { animation-play-state: running; }
 
         .vinyl::before {
             content: '';
@@ -584,10 +788,7 @@
             width: 100%;
         }
 
-        .song-list {
-            text-align: left;
-            margin-top: 15px;
-        }
+        .song-list { text-align: left; margin-top: 15px; }
 
         .song-item {
             display: flex;
@@ -606,18 +807,11 @@
             border: 2px solid var(--soft-pink);
         }
 
-        .song-item:active {
-            transform: scale(0.98);
-        }
+        .song-item:active { transform: scale(0.98); }
 
-        .song-item i {
-            color: var(--soft-pink);
-            font-size: 1.2rem;
-        }
+        .song-item i { color: var(--soft-pink); font-size: 1.2rem; }
 
-        .song-info {
-            flex: 1;
-        }
+        .song-info { flex: 1; }
 
         .song-name {
             font-weight: 600;
@@ -647,9 +841,7 @@
             margin-top: 15px;
         }
 
-        .play-btn:active {
-            transform: scale(0.95);
-        }
+        .play-btn:active { transform: scale(0.95); }
 
         .progress-bar {
             width: 100%;
@@ -676,9 +868,7 @@
         }
 
         /* Gift Section */
-        .gift-section {
-            background: rgba(255,255,255,0.2);
-        }
+        .gift-section { background: rgba(255,255,255,0.2); }
 
         .gift-wrapper {
             text-align: center;
@@ -709,13 +899,9 @@
             z-index: 2;
         }
 
-        .gift-box:active {
-            transform: scale(0.9) rotate(10deg);
-        }
+        .gift-box:active { transform: scale(0.9) rotate(10deg); }
 
-        .gift-box.opened {
-            animation: giftOpen 0.8s ease forwards;
-        }
+        .gift-box.opened { animation: giftOpen 0.8s ease forwards; }
 
         @keyframes giftOpen {
             0% { transform: scale(1) rotate(0deg); }
@@ -735,9 +921,7 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .gift-box.opened .gift-lid {
-            animation: lidPop 0.5s ease forwards;
-        }
+        .gift-box.opened .gift-lid { animation: lidPop 0.5s ease forwards; }
 
         @keyframes lidPop {
             to { transform: translateY(-100px) rotate(-20deg); opacity: 0; }
@@ -753,9 +937,7 @@
             width: 100%;
         }
 
-        .surprise-content.show {
-            display: block;
-        }
+        .surprise-content.show { display: block; }
 
         @keyframes popIn {
             from { transform: scale(0.8); opacity: 0; }
@@ -870,218 +1052,373 @@
             transition: all 0.3s ease;
         }
 
-        .confetti-btn:active {
-            transform: scale(0.9);
-        }
+        .confetti-btn:active { transform: scale(0.9); }
 
         /* Responsive */
         @media (min-width: 768px) {
-            section {
-                padding: 80px 40px;
-            }
-
-            .folder-item:hover {
-                transform: translateX(10px);
-            }
-
-            .play-btn:hover {
-                transform: scale(1.02);
-            }
-
-            .gift-box:hover {
-                transform: scale(1.05) rotate(5deg);
-            }
+            section { padding: 80px 40px; }
+            .folder-item:hover { transform: translateX(10px); }
+            .play-btn:hover { transform: scale(1.02); }
+            .gift-box:hover { transform: scale(1.05) rotate(5deg); }
         }
     </style>
 </head>
 <body>
-    <!-- Background Blobs -->
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
+    <!-- ============================================
+         INTRO / LOADING SCREEN
+         ============================================ -->
+    <div id="intro-screen">
+        <!-- Background Stars -->
+        <div class="stars" id="stars"></div>
+        
+        <!-- Floating Balloons -->
+        <div id="balloons"></div>
 
-    <!-- Hero Section -->
-    <section id="home">
-        <div class="hero-content">
-            <div class="birthday-icon">🎉</div>
-            <h1>Happy Birthday</h1>
-            <span class="name">Kakak Tersayang</span>
-            <p class="subtitle">Dari Ashar yang paling sayang sama kakak~</p>
-            <div class="date-badge">
-                <i class="fas fa-calendar-heart"></i>
-                <span>27 April 2026</span>
+        <!-- Loading Phase -->
+        <div class="loading-container" id="loading-container">
+            <div class="cake-wrapper">🎂</div>
+            <div class="loading-text">LOADING</div>
+            <div class="progress-container">
+                <div class="progress-bar-loading" id="progress-bar"></div>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-light); opacity: 0.7; margin-top: 10px;">
-                Scroll ke bawah ya~
-            </p>
+            <div class="percentage" id="percentage">0%</div>
         </div>
-        <div class="scroll-hint">
-            <i class="fas fa-chevron-down"></i>
-        </div>
-    </section>
 
-    <!-- Letter Section -->
-    <section id="letter" class="letter-section">
-        <div class="envelope-wrapper">
-            <div class="envelope" onclick="toggleLetter(this)">
-                <h3>Ada Surat Spesial! 💌</h3>
-                <p>Klik buat buka ya~</p>
-                
-                <div class="letter-content">
-                    <div class="letter-header">Untuk Kakak Tersayang,</div>
-                    <div class="letter-body">
-                        <p>
-                            Hai kakak! 🌸<br><br>
-                            Selamat ulang tahun! Makasih udah jadi kakak terbaik buat aku. Meski kita seangkatan, tapi aku tetap respect manggil kamu kakak soalnya kamu lebih dewasa (dan lebih tua 1 tahun wkwk 😝).
-                        </p>
-                        <p>
-                            Makasih udah sabar ngadepin aku yang kadang nyebelin, makasih udah jadi tempat curhat, dan makasih udah selalu ada buat aku. Semoga di umur yang baru ini, kakak makin sukses, makin bahagia, dan semua wishlist-nya tercapai!
-                        </p>
-                        <p>
-                            Jangan lupa jaga kesehatan ya~ Love you kakak! 💕<br>
-                            (P.S.: Traktiran mie ayam wajib ada! 🍜)
-                        </p>
-                    </div>
-                    <div class="letter-signature">- Ashar</div>
-                </div>
+        <!-- Intro Content (After Loading) -->
+        <div class="intro-content" id="intro-content">
+            <div class="intro-title" id="intro-title">Happy Birthday!</div>
+            <div class="typewriter" id="typewriter">
+                <span id="type-text"></span><span class="cursor"></span>
             </div>
-        </div>
-    </section>
-
-    <!-- Gallery Section - File Explorer Style -->
-    <section id="gallery" class="gallery-section">
-        <div class="container">
-            <h2 class="section-title">Memories Kita 📁</h2>
-            
-            <div class="file-explorer">
-                <!-- Explorer Header -->
-                <div class="explorer-header">
-                    <i class="fas fa-folder-open"></i>
-                    <span class="explorer-path">static/images/memories/</span>
-                </div>
-                
-                <!-- Explorer Body -->
-                <div class="explorer-body" id="folderContainer">
-                    <!-- Folders will be generated here -->
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Lightbox for Photos -->
-    <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
-        <div class="lightbox-content">
-            <button class="lightbox-close" onclick="closeLightbox()">
-                <i class="fas fa-times"></i>
+            <button class="enter-btn" id="enter-btn" onclick="enterSite()">
+                <i class="fas fa-gift"></i> Buka Hadiah
             </button>
-            <img id="lightboxImg" src="" alt="Photo">
-            <div class="lightbox-caption" id="lightboxCaption"></div>
         </div>
     </div>
 
-    <!-- Playlist Section -->
-    <section id="music" class="music-section">
-        <div class="music-container">
-            <h2 class="section-title">Our Playlist 🎵</h2>
-            
-            <div class="vinyl-player">
-                <div class="vinyl" id="vinyl"></div>
-            </div>
+    <!-- Transition Overlay -->
+    <div class="transition-overlay" id="transition-overlay"></div>
 
-            <div class="playlist-info">
-                <div class="song-list" id="songList">
-                    <!-- Songs will be loaded from static/music/ -->
+    <!-- ============================================
+         MAIN CONTENT
+         ============================================ -->
+    <div id="main-content">
+        <!-- Background Blobs -->
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+
+        <!-- Hero Section -->
+        <section id="home">
+            <div class="hero-content">
+                <div class="birthday-icon">🎉</div>
+                <h1>Happy Birthday</h1>
+                <span class="name">Kakak Tersayang</span>
+                <p class="subtitle">Dari Ashar yang paling sayang sama kakak~</p>
+                <div class="date-badge">
+                    <i class="fas fa-calendar-heart"></i>
+                    <span>27 April 2026</span>
                 </div>
-                
-                <div class="progress-bar" onclick="seek(event)">
-                    <div class="progress" id="progress"></div>
-                </div>
-                
-                <button class="play-btn" onclick="togglePlay()" id="playBtn">
-                    <i class="fas fa-play"></i> Putar Lagu
-                </button>
-            </div>
-
-            <p class="playlist-title">"Songs That Remind Me of You"</p>
-        </div>
-    </section>
-
-    <!-- Gift Section -->
-    <section id="gift" class="gift-section">
-        <div class="gift-wrapper">
-            <h2 class="section-title">Ada Hadiah! 🎁</h2>
-            
-            <div class="gift-box-container">
-                <div class="gift-box" onclick="openGift(this)">
-                    <div class="gift-lid"></div>
-                    🎀
-                </div>
-            </div>
-            
-            <p style="margin-bottom: 20px; color: var(--text-light); font-size: clamp(0.9rem, 3vw, 1rem);">
-                Klik kotaknya ya~
-            </p>
-
-            <div class="surprise-content" id="surprise">
-                <h2>Surprise! 🎉</h2>
-                <p>Maaf ya kak, aku belum bisa ngasih hadiah mewah... Tapi aku punya sesuatu yang lebih spesial:</p>
-                
-                <div class="wishlist">
-                    <div class="wishlist-item">
-                        <i class="fas fa-star"></i>
-                        <span>Doa terbaik buat kakak</span>
-                    </div>
-                    <div class="wishlist-item">
-                        <i class="fas fa-hand-holding-heart"></i>
-                        <span>Janji bakal lebih nurut (insyaallah 😅)</span>
-                    </div>
-                    <div class="wishlist-item">
-                        <i class="fas fa-utensils"></i>
-                        <span>Traktiran mie ayam nanti! 🍜</span>
-                    </div>
-                    <div class="wishlist-item">
-                        <i class="fas fa-laptop-code"></i>
-                        <span>Website ini yang kubuat khusus buat kakak~</span>
-                    </div>
-                    <div class="wishlist-item">
-                        <i class="fas fa-heart"></i>
-                        <span>Love yang unlimited! 💕</span>
-                    </div>
-                </div>
-
-                <p class="closing-message">
-                    Happy Birthday Kakak! 🎂🎈
+                <p style="font-size: 0.85rem; color: var(--text-light); opacity: 0.7; margin-top: 10px;">
+                    Scroll ke bawah ya~
                 </p>
+            </div>
+            <div class="scroll-hint">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </section>
+
+        <!-- Letter Section -->
+        <section id="letter" class="letter-section">
+            <div class="envelope-wrapper">
+                <div class="envelope" onclick="toggleLetter(this)">
+                    <h3>Ada Surat Spesial! 💌</h3>
+                    <p>Klik buat buka ya~</p>
+                    
+                    <div class="letter-content">
+                        <div class="letter-header">Untuk Kakak Tersayang,</div>
+                        <div class="letter-body">
+                            <p>
+                                Hai kakak! 🌸<br><br>
+                                Selamat ulang tahun! Makasih udah jadi kakak terbaik buat aku. Meski kita seangkatan, tapi aku tetap respect manggil kamu kakak soalnya kamu lebih dewasa (dan lebih tua 1 tahun wkwk 😝).
+                            </p>
+                            <p>
+                                Makasih udah sabar ngadepin aku yang kadang nyebelin, makasih udah jadi tempat curhat, dan makasih udah selalu ada buat aku. Semoga di umur yang baru ini, kakak makin sukses, makin bahagia, dan semua wishlist-nya tercapai!
+                            </p>
+                            <p>
+                                Jangan lupa jaga kesehatan ya~ Love you kakak! 💕<br>
+                                (P.S.: Traktiran mie ayam wajib ada! 🍜)
+                            </p>
+                        </div>
+                        <div class="letter-signature">- Ashar</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="gallery-section">
+            <div class="container">
+                <h2 class="section-title">Memories Kita 📁</h2>
                 
-                <button class="play-btn" onclick="resetGift()" style="margin-top: 20px;">
-                    <i class="fas fa-redo"></i> Buka Lagi
+                <div class="file-explorer">
+                    <div class="explorer-header">
+                        <i class="fas fa-folder-open"></i>
+                        <span class="explorer-path">static/images/memories/</span>
+                    </div>
+                    
+                    <div class="explorer-body" id="folderContainer"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lightbox -->
+        <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+            <div class="lightbox-content">
+                <button class="lightbox-close" onclick="closeLightbox()">
+                    <i class="fas fa-times"></i>
                 </button>
+                <img id="lightboxImg" src="" alt="Photo">
+                <div class="lightbox-caption" id="lightboxCaption"></div>
             </div>
         </div>
-    </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>Made with 💖 by Ashar | 27 April 2026</p>
-    </footer>
+        <!-- Music Section -->
+        <section id="music" class="music-section">
+            <div class="music-container">
+                <h2 class="section-title">Our Playlist 🎵</h2>
+                
+                <div class="vinyl-player">
+                    <div class="vinyl" id="vinyl"></div>
+                </div>
 
-    <!-- Confetti Button -->
-    <button class="confetti-btn" onclick="shootConfetti()" title="Kirim Confetti!">
-        <i class="fas fa-wand-magic-sparkles"></i>
-    </button>
+                <div class="playlist-info">
+                    <div class="song-list" id="songList"></div>
+                    
+                    <div class="progress-bar" onclick="seek(event)">
+                        <div class="progress" id="progress"></div>
+                    </div>
+                    
+                    <button class="play-btn" onclick="togglePlay()" id="playBtn">
+                        <i class="fas fa-play"></i> Putar Lagu
+                    </button>
+                </div>
 
-    <!-- Toast -->
-    <div class="toast" id="toast"></div>
+                <p class="playlist-title">"Songs That Remind Me of You"</p>
+            </div>
+        </section>
+
+        <!-- Gift Section -->
+        <section id="gift" class="gift-section">
+            <div class="gift-wrapper">
+                <h2 class="section-title">Ada Hadiah! 🎁</h2>
+                
+                <div class="gift-box-container">
+                    <div class="gift-box" onclick="openGift(this)">
+                        <div class="gift-lid"></div>
+                        🎀
+                    </div>
+                </div>
+                
+                <p style="margin-bottom: 20px; color: var(--text-light); font-size: clamp(0.9rem, 3vw, 1rem);">
+                    Klik kotaknya ya~
+                </p>
+
+                <div class="surprise-content" id="surprise">
+                    <h2>Surprise! 🎉</h2>
+                    <p>Maaf ya kak, aku belum bisa ngasih hadiah mewah... Tapi aku punya sesuatu yang lebih spesial:</p>
+                    
+                    <div class="wishlist">
+                        <div class="wishlist-item">
+                            <i class="fas fa-star"></i>
+                            <span>Doa terbaik buat kakak</span>
+                        </div>
+                        <div class="wishlist-item">
+                            <i class="fas fa-hand-holding-heart"></i>
+                            <span>Janji bakal lebih nurut (insyaallah 😅)</span>
+                        </div>
+                        <div class="wishlist-item">
+                            <i class="fas fa-utensils"></i>
+                            <span>Traktiran mie ayam nanti! 🍜</span>
+                        </div>
+                        <div class="wishlist-item">
+                            <i class="fas fa-laptop-code"></i>
+                            <span>Website ini yang kubuat khusus buat kakak~</span>
+                        </div>
+                        <div class="wishlist-item">
+                            <i class="fas fa-heart"></i>
+                            <span>Love yang unlimited! 💕</span>
+                        </div>
+                    </div>
+
+                    <p class="closing-message">
+                        Happy Birthday Kakak! 🎂🎈
+                    </p>
+                    
+                    <button class="play-btn" onclick="resetGift()" style="margin-top: 20px;">
+                        <i class="fas fa-redo"></i> Buka Lagi
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>Made with 💖 by Ashar | 27 April 2026</p>
+        </footer>
+
+        <!-- Confetti Button -->
+        <button class="confetti-btn" onclick="shootConfetti()" title="Kirim Confetti!">
+            <i class="fas fa-wand-magic-sparkles"></i>
+        </button>
+
+        <!-- Toast -->
+        <div class="toast" id="toast"></div>
+    </div>
 
     <script>
-        // Global Variables
+        // ============================================
+        // INTRO ANIMATION SCRIPT
+        // ============================================
+
+        // Generate Stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Generate Balloons
+        function createBalloons() {
+            const balloonsContainer = document.getElementById('balloons');
+            const balloonEmojis = ['🎈', '🎉', '🎊', '💖', '✨'];
+            
+            for (let i = 0; i < 10; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.innerHTML = balloonEmojis[Math.floor(Math.random() * balloonEmojis.length)];
+                balloon.style.left = Math.random() * 100 + '%';
+                balloon.style.animationDelay = Math.random() * 8 + 's';
+                balloon.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                balloonsContainer.appendChild(balloon);
+            }
+        }
+
+        // Loading Animation
+        function startLoading() {
+            let progress = 0;
+            const progressBar = document.getElementById('progress-bar');
+            const percentage = document.getElementById('percentage');
+            
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    setTimeout(() => {
+                        showIntro();
+                    }, 500);
+                }
+                
+                progressBar.style.width = progress + '%';
+                percentage.textContent = Math.floor(progress) + '%';
+            }, 200);
+        }
+
+        // Typewriter Effect
+        function typeWriter(text, element, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            
+            type();
+        }
+
+        // Show Intro Content
+        function showIntro() {
+            document.getElementById('loading-container').style.display = 'none';
+            document.getElementById('intro-content').style.display = 'block';
+            
+            setTimeout(() => {
+                document.getElementById('intro-title').classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                const texts = [
+                    "Ada sesuatu yang spesial buat kakak...",
+                    "Siap-siap ya...",
+                    "Scroll ke bawah untuk melihat kejutan! 🎁"
+                ];
+                let currentText = 0;
+                
+                function showNextText() {
+                    if (currentText < texts.length) {
+                        typeWriter(texts[currentText], document.getElementById('type-text'), 50);
+                        currentText++;
+                        setTimeout(showNextText, 3000);
+                    } else {
+                        setTimeout(() => {
+                            document.getElementById('enter-btn').classList.add('show');
+                        }, 500);
+                    }
+                }
+                
+                showNextText();
+            }, 800);
+        }
+
+        // Enter Site
+        function enterSite() {
+            const overlay = document.getElementById('transition-overlay');
+            const introScreen = document.getElementById('intro-screen');
+            const mainContent = document.getElementById('main-content');
+            
+            // Confetti explosion
+            confetti({
+                particleCount: 200,
+                spread: 100,
+                origin: { y: 0.6 },
+                colors: ['#FFB6C1', '#E6E6FA', '#98FF98', '#FFDAB9', '#FF6B9D', '#FFF']
+            });
+            
+            // Transition effect
+            overlay.classList.add('active');
+            
+            setTimeout(() => {
+                introScreen.style.display = 'none';
+                mainContent.classList.add('visible');
+                overlay.style.transformOrigin = 'top';
+                overlay.style.transform = 'scaleY(0)';
+                
+                // Initialize main content
+                initMainContent();
+            }, 800);
+        }
+
+        // ============================================
+        // MAIN CONTENT SCRIPT (Your Original Logic)
+        // ============================================
+
         let currentAudio = null;
         let isPlaying = false;
         let currentSongIndex = 0;
         let giftOpened = false;
         let openFolder = null;
 
-        // Folder Structure Configuration
         const FOLDERS = [
             {
                 name: '📸 Foto Bareng',
@@ -1118,16 +1455,31 @@
             { path: 'static/audio/Youll Be in My Heart.mp3', title: 'Youll be in My Heart', artist: ''}
         ];
 
-        // Initialize
-        window.onload = function() {
+        function initMainContent() {
             renderFolders();
             renderSongs();
             setTimeout(() => {
                 shootConfetti();
             }, 500);
-        };
+            
+            // Intersection Observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if(entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-        // Render Folders
+            document.querySelectorAll('section').forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                section.style.transition = 'all 0.8s ease';
+                observer.observe(section);
+            });
+        }
+
         function renderFolders() {
             const container = document.getElementById('folderContainer');
             container.innerHTML = '';
@@ -1151,17 +1503,14 @@
                 `;
                 
                 container.appendChild(folderEl);
-                
-                // Load photos for this folder
                 loadFolderPhotos(folder);
             });
         }
 
-        // Load Photos for Folder
         function loadFolderPhotos(folder) {
             const grid = document.getElementById(`grid-${folder.id}`);
             
-            folder.photos.forEach((photo, index) => {
+            folder.photos.forEach((photo) => {
                 const thumb = document.createElement('div');
                 thumb.className = 'photo-thumb';
                 
@@ -1170,11 +1519,7 @@
                     thumb.innerHTML = `<img src="${photo.src}" alt="${photo.caption}">`;
                 };
                 img.onerror = function() {
-                    thumb.innerHTML = `
-                        <div class="placeholder">
-                            <span>📷</span>
-                        </div>
-                    `;
+                    thumb.innerHTML = `<div class="placeholder"><span>📷</span></div>`;
                 };
                 img.src = photo.src;
                 
@@ -1187,20 +1532,17 @@
             });
         }
 
-        // Toggle Folder
         function toggleFolder(folderId) {
             const content = document.getElementById(`content-${folderId}`);
             const arrow = document.getElementById(`arrow-${folderId}`);
             const folderItem = arrow.closest('.folder-item');
             
-            // Close other folders
             if (openFolder && openFolder !== folderId) {
                 document.getElementById(`content-${openFolder}`).classList.remove('show');
                 document.getElementById(`arrow-${openFolder}`).style.transform = 'rotate(0deg)';
                 document.getElementById(`arrow-${openFolder}`).closest('.folder-item').classList.remove('open');
             }
             
-            // Toggle current folder
             if (content.classList.contains('show')) {
                 content.classList.remove('show');
                 arrow.style.transform = 'rotate(0deg)';
@@ -1212,7 +1554,6 @@
                 folderItem.classList.add('open');
                 openFolder = folderId;
                 
-                // Confetti effect when opening
                 confetti({
                     particleCount: 30,
                     spread: 50,
@@ -1222,15 +1563,10 @@
             }
         }
 
-        // Lightbox Functions
         function openLightbox(src, caption) {
-            const lightbox = document.getElementById('lightbox');
-            const img = document.getElementById('lightboxImg');
-            const cap = document.getElementById('lightboxCaption');
-            
-            img.src = src;
-            cap.textContent = caption;
-            lightbox.classList.add('show');
+            document.getElementById('lightboxImg').src = src;
+            document.getElementById('lightboxCaption').textContent = caption;
+            document.getElementById('lightbox').classList.add('show');
         }
 
         function closeLightbox(e) {
@@ -1239,7 +1575,6 @@
             }
         }
 
-        // Render Songs
         function renderSongs() {
             const songList = document.getElementById('songList');
             songList.innerHTML = '';
@@ -1259,7 +1594,6 @@
             });
         }
 
-        // Confetti
         function shootConfetti() {
             const colors = ['#FFB6C1', '#E6E6FA', '#98FF98', '#FFDAB9', '#FF6B9D'];
             
@@ -1272,35 +1606,24 @@
 
             for(let i = 0; i < 5; i++) {
                 setTimeout(() => {
-                    createHeart();
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.innerHTML = '💖';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                    document.body.appendChild(heart);
+                    setTimeout(() => heart.remove(), 6000);
                 }, i * 300);
             }
         }
 
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.innerHTML = '💖';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
-            document.body.appendChild(heart);
-            
-            setTimeout(() => {
-                heart.remove();
-            }, 6000);
-        }
-
-        // Letter Toggle
         function toggleLetter(envelope) {
             if(!envelope.classList.contains('open')) {
                 envelope.classList.add('open');
-                setTimeout(() => {
-                    shootConfetti();
-                }, 300);
+                setTimeout(() => shootConfetti(), 300);
             }
         }
 
-        // Music Functions
         function selectSong(index) {
             currentSongIndex = index;
             
@@ -1366,15 +1689,12 @@
             }
         }
 
-        // Gift Opening
         function openGift(box) {
             if(!box.classList.contains('opened') && !giftOpened) {
                 box.classList.add('opened');
                 giftOpened = true;
                 
-                const duration = 3000;
-                const end = Date.now() + duration;
-
+                const end = Date.now() + 3000;
                 const frame = () => {
                     confetti({
                         particleCount: 8,
@@ -1383,9 +1703,7 @@
                         colors: ['#FFB6C1', '#E6E6FA', '#98FF98', '#FFDAB9', '#FF6B9D', '#FFF']
                     });
                     
-                    if(Date.now() < end) {
-                        requestAnimationFrame(frame);
-                    }
+                    if(Date.now() < end) requestAnimationFrame(frame);
                 };
                 frame();
 
@@ -1408,32 +1726,19 @@
             giftOpened = false;
         }
 
-        // Utilities
         function showToast(message) {
             const toast = document.getElementById('toast');
             toast.textContent = message;
             toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
+            setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // Intersection Observer
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if(entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-        document.querySelectorAll('section').forEach(section => {
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(30px)';
-            section.style.transition = 'all 0.8s ease';
-            observer.observe(section);
-        });
+        // Initialize Intro
+        window.onload = function() {
+            createStars();
+            createBalloons();
+            startLoading();
+        };
     </script>
 </body>
 </html>
