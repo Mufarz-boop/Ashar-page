@@ -11,7 +11,7 @@
     <meta name="theme-color" content="#FFB6C1">
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Quicksand:wght@400;500;600;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Quicksand:wght@400;500;600;700&family=Caveat:wght@500;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -37,8 +37,8 @@
             --text-light: #7B6B8D;
             --white: #FFFFFF;
             --shadow: rgba(255,182,193,0.3);
-            --folder-bg: #FFE4E1;
-            --folder-border: #FFB6C1;
+            --sidebar-bg: rgba(255, 255, 255, 0.85);
+            --active-menu: #FFB6C1;
         }
 
         html {
@@ -74,7 +74,6 @@
             overflow: hidden;
         }
 
-        /* Stars Background */
         .stars {
             position: absolute;
             width: 100%;
@@ -96,7 +95,6 @@
             50% { opacity: 1; transform: scale(1.5); }
         }
 
-        /* Floating Balloons */
         .balloon {
             position: absolute;
             font-size: 2rem;
@@ -111,14 +109,12 @@
             100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
         }
 
-        /* Loading Container */
         .loading-container {
             text-align: center;
             z-index: 10;
             max-width: 90%;
         }
 
-        /* Cake Animation */
         .cake-wrapper {
             font-size: 5rem;
             margin-bottom: 30px;
@@ -131,7 +127,6 @@
             50% { transform: translateY(-20px) scale(1.1); }
         }
 
-        /* Loading Text */
         .loading-text {
             font-family: 'Poppins', sans-serif;
             font-size: 1.5rem;
@@ -140,7 +135,6 @@
             letter-spacing: 3px;
         }
 
-        /* Progress Bar */
         .progress-container {
             width: 300px;
             max-width: 80vw;
@@ -168,7 +162,6 @@
             font-weight: 600;
         }
 
-        /* Intro Content (Hidden Initially) */
         .intro-content {
             display: none;
             text-align: center;
@@ -217,7 +210,6 @@
             51%, 100% { opacity: 0; }
         }
 
-        /* Enter Button */
         .enter-btn {
             background: linear-gradient(135deg, var(--soft-pink), var(--peach));
             color: white;
@@ -268,7 +260,6 @@
             left: 100%;
         }
 
-        /* Transition Overlay */
         .transition-overlay {
             position: fixed;
             top: 0;
@@ -286,31 +277,415 @@
             transform: scaleY(1);
         }
 
-        /* Hide Main Content Initially */
-        #main-content {
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.5s ease;
+        /* ============================================
+           MAIN APP LAYOUT
+           ============================================ */
+        
+        #app {
+            display: none;
+            min-height: 100vh;
         }
 
-        #main-content.visible {
-            opacity: 1;
-            visibility: visible;
+        #app.visible {
+            display: flex;
         }
 
         /* ============================================
-           MAIN CONTENT STYLES (Your Original Styles)
+           SIDEBAR STYLES
+           ============================================ */
+        
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 182, 193, 0.3);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            box-shadow: 5px 0 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 2px dashed rgba(255, 182, 193, 0.4);
+        }
+
+        .sidebar-title {
+            font-family: 'Caveat', cursive;
+            font-size: 1.8rem;
+            color: var(--soft-pink);
+            margin-bottom: 5px;
+        }
+
+        .sidebar-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* Clock in Sidebar */
+        .sidebar-clock {
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(255,182,193,0.2), rgba(255,218,185,0.2));
+            margin: 15px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 182, 193, 0.3);
+        }
+
+        .clock-day {
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            color: var(--soft-pink);
+            font-weight: 700;
+        }
+
+        .clock-date {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .clock-time {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            color: var(--text-dark);
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .clock-seconds {
+            font-size: 1rem;
+            color: var(--soft-pink);
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 20px;
+            margin-bottom: 8px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-dark);
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 182, 193, 0.2);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--soft-pink), var(--peach));
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 182, 193, 0.4);
+        }
+
+        .nav-item i {
+            font-size: 1.3rem;
+            width: 30px;
+            text-align: center;
+        }
+
+        .nav-item.active i {
+            animation: wiggle 2s infinite;
+        }
+
+        .nav-badge {
+            position: absolute;
+            right: 15px;
+            background: white;
+            color: var(--soft-pink);
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        .nav-item.active .nav-badge {
+            background: rgba(255,255,255,0.3);
+            color: white;
+        }
+
+        /* Special Menu - Pesan Dariku */
+        .nav-item.special {
+            background: linear-gradient(135deg, rgba(255,107,157,0.1), rgba(255,182,193,0.1));
+            border: 2px dashed var(--soft-pink);
+            margin-top: 10px;
+        }
+
+        .nav-item.special:hover {
+            background: linear-gradient(135deg, var(--soft-pink), #FF6B9D);
+            color: white;
+            border-style: solid;
+        }
+
+        .nav-item.special.active {
+            background: linear-gradient(135deg, #FF6B9D, var(--soft-pink));
+            border-style: solid;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            text-align: center;
+            border-top: 2px dashed rgba(255, 182, 193, 0.4);
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* Mobile Sidebar Toggle */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--soft-pink), var(--peach));
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 200;
+            box-shadow: 0 5px 20px rgba(255, 182, 193, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-toggle:active {
+            transform: scale(0.9);
+        }
+
+        /* ============================================
+           CONTENT AREA
+           ============================================ */
+        
+        .content-area {
+            margin-left: 280px;
+            flex: 1;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding: 40px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .page-title {
+            font-family: 'Caveat', cursive;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: var(--soft-pink);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* ============================================
+           HOME PAGE
+           ============================================ */
+        
+        .home-content {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .home-icon {
+            font-size: clamp(4rem, 10vw, 6rem);
+            margin-bottom: 20px;
+            animation: wiggle 2s infinite;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        .home-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--text-dark), var(--soft-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .home-name {
+            font-family: 'Caveat', cursive;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            color: var(--soft-pink);
+            display: block;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 0px var(--lavender);
+        }
+
+        .home-message {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .home-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--soft-pink), var(--peach));
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            box-shadow: 0 8px 25px var(--shadow);
+        }
+
+        /* ============================================
+           LETTER PAGE
+           ============================================ */
+        
+        .letter-container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* ============================================
+           GALLERY PAGE
+           ============================================ */
+        
+        .gallery-container {
+            width: 100%;
+            max-width: 800px;
+        }
+
+        /* ============================================
+           MUSIC PAGE
+           ============================================ */
+        
+        .music-container {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* ============================================
+           GIFT PAGE
+           ============================================ */
+        
+        .gift-container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* ============================================
+           PESAN DARIKU PAGE (SPECIAL)
+           ============================================ */
+        
+        .pesan-container {
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .pesan-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(255, 182, 193, 0.3);
+            border: 2px solid rgba(255, 182, 193, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pesan-card::before {
+            content: '💌';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 8rem;
+            opacity: 0.1;
+            transform: rotate(-15deg);
+        }
+
+        .pesan-header {
+            font-family: 'Caveat', cursive;
+            font-size: 2.5rem;
+            color: var(--soft-pink);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .pesan-content {
+            font-size: 1.1rem;
+            line-height: 2;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        .pesan-content p {
+            margin-bottom: 20px;
+        }
+
+        .pesan-signature {
+            text-align: right;
+            font-family: 'Caveat', cursive;
+            font-size: 2rem;
+            color: var(--soft-pink);
+            margin-top: 30px;
+        }
+
+        .pesan-date {
+            text-align: right;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        /* ============================================
+           REUSABLE COMPONENTS
            ============================================ */
 
-        /* Floating blobs */
         .blob {
             position: fixed;
             border-radius: 50%;
             filter: blur(60px);
             opacity: 0.4;
             z-index: -1;
-            animation: float 20s infinite ease-in-out;
+            animation: float-blob 20s infinite ease-in-out;
             pointer-events: none;
+        }
+
+        @keyframes float-blob {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
         }
 
         .blob-1 { 
@@ -320,7 +695,8 @@
             max-height: 300px;
             background: var(--soft-pink); 
             top: -5vh; 
-            left: -10vw; 
+            right: -10vw; 
+            left: auto;
         }
 
         .blob-2 { 
@@ -330,7 +706,7 @@
             max-height: 250px;
             background: var(--mint); 
             bottom: -5vh; 
-            right: -10vw; 
+            right: 10vw; 
             animation-delay: -5s; 
         }
 
@@ -341,129 +717,12 @@
             max-height: 200px;
             background: var(--peach); 
             top: 40%; 
-            left: 60%; 
+            right: 5%; 
+            left: auto;
             animation-delay: -10s; 
         }
 
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -30px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        section {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 60px 20px;
-            position: relative;
-        }
-
-        .hero-content {
-            text-align: center;
-            width: 100%;
-            max-width: 600px;
-            animation: fadeInUp 1s ease;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .birthday-icon {
-            font-size: clamp(3rem, 10vw, 5rem);
-            margin-bottom: 15px;
-            animation: wiggle 2s infinite;
-            display: inline-block;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
-        }
-
-        @keyframes wiggle {
-            0%, 100% { transform: rotate(-5deg); }
-            50% { transform: rotate(5deg); }
-        }
-
-        .hero h1 {
-            font-family: 'Poppins', sans-serif;
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
-            font-weight: 700;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, var(--text-dark), var(--soft-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero .name {
-            font-family: 'Caveat', cursive;
-            font-size: clamp(2rem, 8vw, 4rem);
-            color: var(--soft-pink);
-            display: block;
-            margin-bottom: 15px;
-            text-shadow: 3px 3px 0px var(--lavender);
-            line-height: 1.2;
-        }
-
-        .hero .subtitle {
-            font-size: clamp(0.9rem, 3vw, 1.1rem);
-            margin-bottom: 25px;
-            opacity: 0.9;
-            font-weight: 500;
-            padding: 0 10px;
-        }
-
-        .date-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, var(--soft-pink), var(--peach));
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-family: 'Poppins', sans-serif;
-            font-size: clamp(0.85rem, 2.5vw, 1rem);
-            font-weight: 700;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 25px var(--shadow);
-        }
-
-        .scroll-hint {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounceDown 2s infinite;
-            color: var(--text-dark);
-            opacity: 0.6;
-            font-size: 1.5rem;
-        }
-
-        @keyframes bounceDown {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(10px); }
-        }
-
-        /* Letter Section */
-        .letter-section {
-            background: rgba(255,255,255,0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        .envelope-wrapper {
-            width: 100%;
-            max-width: 500px;
-            perspective: 1000px;
-        }
-
+        /* Envelope Styles */
         .envelope {
             background: linear-gradient(135deg, var(--soft-pink), var(--peach));
             padding: 40px 30px;
@@ -478,23 +737,27 @@
 
         .envelope::before {
             content: '💌';
-            font-size: clamp(3rem, 8vw, 4rem);
+            font-size: 4rem;
             display: block;
             margin-bottom: 15px;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
-            animation: float 3s ease-in-out infinite;
+            animation: float-env 3s ease-in-out infinite;
+        }
+
+        @keyframes float-env {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .envelope h3 {
             font-family: 'Poppins', sans-serif;
             color: white;
-            font-size: clamp(1.2rem, 4vw, 1.5rem);
+            font-size: 1.5rem;
             margin-bottom: 10px;
         }
 
         .envelope > p {
             color: rgba(255,255,255,0.95);
-            font-size: clamp(0.9rem, 3vw, 1rem);
+            font-size: 1rem;
             font-weight: 500;
         }
 
@@ -515,21 +778,16 @@
         .envelope.open .letter-content { display: block; }
         .envelope.open h3, .envelope.open > p { display: none; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         .letter-header {
             font-family: 'Caveat', cursive;
-            font-size: clamp(1.5rem, 5vw, 2rem);
+            font-size: 2rem;
             color: var(--soft-pink);
             margin-bottom: 20px;
             text-align: center;
         }
 
         .letter-body {
-            font-size: clamp(0.9rem, 3vw, 1rem);
+            font-size: 1rem;
             line-height: 1.9;
             margin-bottom: 20px;
         }
@@ -538,30 +796,19 @@
 
         .letter-signature {
             font-family: 'Caveat', cursive;
-            font-size: clamp(1.3rem, 4vw, 1.8rem);
+            font-size: 1.8rem;
             color: var(--soft-pink);
             text-align: right;
             margin-top: 20px;
         }
 
-        /* Gallery Section */
-        .gallery-section { background: rgba(255,255,255,0.2); }
-
-        .section-title {
-            text-align: center;
-            font-family: 'Poppins', sans-serif;
-            font-size: clamp(1.5rem, 5vw, 2rem);
-            margin-bottom: 30px;
-            color: var(--text-dark);
-        }
-
+        /* File Explorer */
         .file-explorer {
             background: var(--white);
             border-radius: 20px;
             box-shadow: 0 15px 40px var(--shadow);
             overflow: hidden;
             width: 100%;
-            max-width: 600px;
             border: 3px solid var(--folder-border);
         }
 
@@ -575,17 +822,9 @@
             font-weight: 600;
         }
 
-        .explorer-header i { font-size: 1.2rem; }
-
-        .explorer-path {
-            font-family: 'Quicksand', sans-serif;
-            font-size: clamp(0.85rem, 3vw, 0.95rem);
-        }
-
         .explorer-body {
             padding: 20px;
-            min-height: 300px;
-            max-height: 400px;
+            max-height: 500px;
             overflow-y: auto;
         }
 
@@ -602,7 +841,7 @@
             border: 2px solid transparent;
         }
 
-        .folder-item:hover, .folder-item:active {
+        .folder-item:hover {
             transform: translateX(5px);
             border-color: var(--soft-pink);
             box-shadow: 0 5px 15px rgba(255,182,193,0.2);
@@ -615,12 +854,11 @@
         .folder-name {
             font-weight: 700;
             color: var(--text-dark);
-            font-size: clamp(1rem, 3.5vw, 1.1rem);
-            margin-bottom: 3px;
+            font-size: 1.1rem;
         }
 
         .folder-count {
-            font-size: clamp(0.8rem, 2.5vw, 0.85rem);
+            font-size: 0.85rem;
             color: var(--text-light);
         }
 
@@ -650,12 +888,12 @@
 
         .photos-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
         }
 
-        @media (min-width: 500px) {
-            .photos-grid { grid-template-columns: repeat(3, 1fr); }
+        @media (max-width: 600px) {
+            .photos-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         .photo-thumb {
@@ -663,15 +901,11 @@
             border-radius: 10px;
             overflow: hidden;
             cursor: pointer;
-            position: relative;
             background: linear-gradient(135deg, var(--lavender), var(--mint));
             transition: all 0.3s ease;
         }
 
-        .photo-thumb:hover, .photo-thumb:active {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
+        .photo-thumb:hover { transform: scale(1.05); }
 
         .photo-thumb img {
             width: 100%;
@@ -703,21 +937,18 @@
             padding: 20px;
         }
 
-        .lightbox.show { display: flex; animation: fadeIn 0.3s; }
-
-        .lightbox-content { position: relative; max-width: 90%; max-height: 90%; }
+        .lightbox.show { display: flex; }
 
         .lightbox img {
-            max-width: 100%;
+            max-width: 90%;
             max-height: 80vh;
             border-radius: 15px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
         .lightbox-close {
             position: absolute;
-            top: -40px;
-            right: 0;
+            top: 20px;
+            right: 20px;
             color: white;
             font-size: 2rem;
             cursor: pointer;
@@ -725,28 +956,11 @@
             border: none;
         }
 
-        .lightbox-caption {
-            color: white;
-            text-align: center;
-            margin-top: 15px;
-            font-family: 'Caveat', cursive;
-            font-size: 1.5rem;
-        }
-
-        /* Music Section */
-        .music-section { background: rgba(255,255,255,0.3); }
-
-        .music-container {
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-
+        /* Music Player */
         .vinyl-player {
-            width: clamp(180px, 50vw, 250px);
-            height: clamp(180px, 50vw, 250px);
+            width: 250px;
+            height: 250px;
             margin: 0 auto 30px;
-            position: relative;
         }
 
         .vinyl {
@@ -760,7 +974,6 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.4);
             animation: spin 3s linear infinite;
             animation-play-state: paused;
-            position: relative;
         }
 
         .vinyl.playing { animation-play-state: running; }
@@ -779,16 +992,12 @@
             to { transform: rotate(360deg); }
         }
 
-        .playlist-info {
+        .playlist-box {
             background: var(--white);
             padding: 25px;
             border-radius: 20px;
             box-shadow: 0 10px 30px var(--shadow);
-            margin-bottom: 20px;
-            width: 100%;
         }
-
-        .song-list { text-align: left; margin-top: 15px; }
 
         .song-item {
             display: flex;
@@ -807,8 +1016,6 @@
             border: 2px solid var(--soft-pink);
         }
 
-        .song-item:active { transform: scale(0.98); }
-
         .song-item i { color: var(--soft-pink); font-size: 1.2rem; }
 
         .song-info { flex: 1; }
@@ -816,12 +1023,11 @@
         .song-name {
             font-weight: 600;
             color: var(--text-dark);
-            font-size: clamp(0.9rem, 3vw, 1rem);
             display: block;
         }
 
         .song-artist {
-            font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+            font-size: 0.85rem;
             color: var(--text-light);
         }
 
@@ -832,18 +1038,16 @@
             padding: 14px 32px;
             border-radius: 50px;
             font-family: 'Poppins', sans-serif;
-            font-size: clamp(0.9rem, 3vw, 1rem);
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px var(--shadow);
             width: 100%;
             margin-top: 15px;
+            transition: transform 0.3s;
         }
 
         .play-btn:active { transform: scale(0.95); }
 
-        .progress-bar {
+        .progress-bar-music {
             width: 100%;
             height: 6px;
             background: var(--lavender);
@@ -860,26 +1064,11 @@
             transition: width 0.1s;
         }
 
-        .playlist-title {
-            font-family: 'Caveat', cursive;
-            font-size: clamp(1.2rem, 4vw, 1.6rem);
-            color: var(--soft-pink);
-            margin-top: 15px;
-        }
-
-        /* Gift Section */
-        .gift-section { background: rgba(255,255,255,0.2); }
-
-        .gift-wrapper {
-            text-align: center;
-            width: 100%;
-            max-width: 500px;
-        }
-
+        /* Gift Box */
         .gift-box-container {
             position: relative;
-            width: clamp(150px, 40vw, 200px);
-            height: clamp(150px, 40vw, 200px);
+            width: 200px;
+            height: 200px;
             margin: 0 auto 30px;
         }
 
@@ -891,12 +1080,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: clamp(3rem, 10vw, 5rem);
+            font-size: 5rem;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             box-shadow: 0 20px 50px var(--shadow);
             position: relative;
-            z-index: 2;
         }
 
         .gift-box:active { transform: scale(0.9) rotate(10deg); }
@@ -918,23 +1106,15 @@
             background: linear-gradient(135deg, #FF6B9D, var(--soft-pink));
             border-radius: 20px;
             z-index: 3;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .gift-box.opened .gift-lid { animation: lidPop 0.5s ease forwards; }
-
-        @keyframes lidPop {
-            to { transform: translateY(-100px) rotate(-20deg); opacity: 0; }
         }
 
         .surprise-content {
             display: none;
             background: var(--white);
-            padding: clamp(30px, 8vw, 40px) clamp(20px, 5vw, 30px);
+            padding: 40px 30px;
             border-radius: 30px;
             box-shadow: 0 20px 50px var(--shadow);
             animation: popIn 0.6s ease;
-            width: 100%;
         }
 
         .surprise-content.show { display: block; }
@@ -944,17 +1124,10 @@
             to { transform: scale(1); opacity: 1; }
         }
 
-        .surprise-content h2 {
-            font-family: 'Caveat', cursive;
-            font-size: clamp(1.8rem, 6vw, 2.5rem);
-            color: var(--soft-pink);
-            margin-bottom: 20px;
-        }
-
         .wishlist {
             text-align: left;
             background: linear-gradient(135deg, var(--cream), var(--lavender));
-            padding: clamp(20px, 5vw, 25px);
+            padding: 25px;
             border-radius: 20px;
             margin: 25px 0;
         }
@@ -964,40 +1137,35 @@
             align-items: center;
             gap: 12px;
             margin-bottom: 15px;
-            font-size: clamp(0.9rem, 3vw, 1rem);
-            color: var(--text-dark);
+            font-size: 1rem;
         }
 
-        .wishlist-item i {
-            color: var(--soft-pink);
-            font-size: clamp(1rem, 3vw, 1.2rem);
-            min-width: 24px;
+        .wishlist-item i { color: var(--soft-pink); font-size: 1.2rem; }
+
+        /* Toast & Effects */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-dark);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 2000;
         }
 
-        .closing-message {
-            margin-top: 25px;
-            font-family: 'Caveat', cursive;
-            font-size: clamp(1.3rem, 4vw, 1.6rem);
-            color: var(--soft-pink);
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
 
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            background: rgba(255,255,255,0.3);
-        }
-
-        footer p {
-            font-family: 'Caveat', cursive;
-            font-size: clamp(1.1rem, 3.5vw, 1.3rem);
-            color: var(--soft-pink);
-        }
-
-        /* Floating Hearts */
         .heart {
             position: fixed;
-            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            font-size: 1.5rem;
             animation: floatUp 4s ease-in infinite;
             pointer-events: none;
             z-index: 999;
@@ -1010,56 +1178,52 @@
             100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
         }
 
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--text-dark);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
-            font-weight: 600;
-            opacity: 0;
-            transition: all 0.3s ease;
-            z-index: 2000;
-            max-width: 90%;
-            text-align: center;
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .content-area {
+                margin-left: 0;
+            }
+
+            .page {
+                padding: 20px;
+                padding-bottom: 100px;
+            }
+
+            .sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .overlay-mobile {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 99;
+            }
+
+            .overlay-mobile.show {
+                display: block;
+            }
         }
 
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        /* Confetti Button */
-        .confetti-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 20px;
-            width: clamp(45px, 12vw, 55px);
-            height: clamp(45px, 12vw, 55px);
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--soft-pink), var(--peach));
-            border: none;
-            color: white;
-            font-size: clamp(1.1rem, 3vw, 1.3rem);
-            cursor: pointer;
-            box-shadow: 0 4px 15px var(--shadow);
-            z-index: 999;
-            transition: all 0.3s ease;
-        }
-
-        .confetti-btn:active { transform: scale(0.9); }
-
-        /* Responsive */
-        @media (min-width: 768px) {
-            section { padding: 80px 40px; }
-            .folder-item:hover { transform: translateX(10px); }
-            .play-btn:hover { transform: scale(1.02); }
-            .gift-box:hover { transform: scale(1.05) rotate(5deg); }
+        @media (min-width: 769px) {
+            .overlay-mobile {
+                display: none !important;
+            }
         }
     </style>
 </head>
@@ -1068,13 +1232,9 @@
          INTRO / LOADING SCREEN
          ============================================ -->
     <div id="intro-screen">
-        <!-- Background Stars -->
         <div class="stars" id="stars"></div>
-        
-        <!-- Floating Balloons -->
         <div id="balloons"></div>
 
-        <!-- Loading Phase -->
         <div class="loading-container" id="loading-container">
             <div class="cake-wrapper">🎂</div>
             <div class="loading-text">LOADING</div>
@@ -1084,192 +1244,281 @@
             <div class="percentage" id="percentage">0%</div>
         </div>
 
-        <!-- Intro Content (After Loading) -->
         <div class="intro-content" id="intro-content">
-            <div class="intro-title" id="intro-title">Happy Birthday!</div>
+            <div class="intro-title" id="intro-title">Hey Hey!</div>
             <div class="typewriter" id="typewriter">
                 <span id="type-text"></span><span class="cursor"></span>
             </div>
             <button class="enter-btn" id="enter-btn" onclick="enterSite()">
-                <i class="fas fa-gift"></i> Buka Hadiah
+                <i class="fas fa-gift"></i> Yuk Lihat
             </button>
         </div>
     </div>
 
-    <!-- Transition Overlay -->
     <div class="transition-overlay" id="transition-overlay"></div>
+    <div class="overlay-mobile" id="overlay-mobile" onclick="toggleSidebar()"></div>
 
     <!-- ============================================
-         MAIN CONTENT
+         MAIN APP
          ============================================ -->
-    <div id="main-content">
-        <!-- Background Blobs -->
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-
-        <!-- Hero Section -->
-        <section id="home">
-            <div class="hero-content">
-                <div class="birthday-icon">🎉</div>
-                <h1>Happy Birthday</h1>
-                <span class="name">Kakak Tersayang</span>
-                <p class="subtitle">Dari Ashar yang paling sayang sama kakak~</p>
-                <div class="date-badge">
-                    <i class="fas fa-calendar-heart"></i>
-                    <span>27 April 2026</span>
-                </div>
-                <p style="font-size: 0.85rem; color: var(--text-light); opacity: 0.7; margin-top: 10px;">
-                    Scroll ke bawah ya~
-                </p>
+    <div id="app">
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">🎉 Birthday!</div>
+                <div class="sidebar-subtitle">Untuk Kakak Tersayang</div>
             </div>
-            <div class="scroll-hint">
-                <i class="fas fa-chevron-down"></i>
-            </div>
-        </section>
 
-        <!-- Letter Section -->
-        <section id="letter" class="letter-section">
-            <div class="envelope-wrapper">
-                <div class="envelope" onclick="toggleLetter(this)">
-                    <h3>Ada Surat Spesial! 💌</h3>
-                    <p>Klik buat buka ya~</p>
-                    
-                    <div class="letter-content">
-                        <div class="letter-header">Untuk Kakak Tersayang,</div>
-                        <div class="letter-body">
-                            <p>
-                                Hai kakak! 🌸<br><br>
-                                Selamat ulang tahun! Makasih udah jadi kakak terbaik buat aku. Meski kita seangkatan, tapi aku tetap respect manggil kamu kakak soalnya kamu lebih dewasa (dan lebih tua 1 tahun wkwk 😝).
-                            </p>
-                            <p>
-                                Makasih udah sabar ngadepin aku yang kadang nyebelin, makasih udah jadi tempat curhat, dan makasih udah selalu ada buat aku. Semoga di umur yang baru ini, kakak makin sukses, makin bahagia, dan semua wishlist-nya tercapai!
-                            </p>
-                            <p>
-                                Jangan lupa jaga kesehatan ya~ Love you kakak! 💕<br>
-                                (P.S.: Traktiran mie ayam wajib ada! 🍜)
-                            </p>
-                        </div>
-                        <div class="letter-signature">- Ashar</div>
-                    </div>
+            <!-- Clock Widget -->
+            <div class="sidebar-clock">
+                <div class="clock-day" id="sidebar-day">Senin</div>
+                <div class="clock-date" id="sidebar-date">1 Januari 2024</div>
+                <div class="clock-time">
+                    <span id="sidebar-hours">00</span>:<span id="sidebar-minutes">00</span><span class="clock-seconds" id="sidebar-seconds">:00</span>
                 </div>
             </div>
-        </section>
 
-        <!-- Gallery Section -->
-        <section id="gallery" class="gallery-section">
-            <div class="container">
-                <h2 class="section-title">Memories Kita 📁</h2>
+            <!-- Navigation Menu -->
+            <div class="nav-menu">
+                <div class="nav-item active" onclick="navigateTo('home')" data-page="home">
+                    <i class="fas fa-home"></i>
+                    <span>Beranda</span>
+                </div>
                 
-                <div class="file-explorer">
-                    <div class="explorer-header">
-                        <i class="fas fa-folder-open"></i>
-                        <span class="explorer-path">static/images/memories/</span>
-                    </div>
-                    
-                    <div class="explorer-body" id="folderContainer"></div>
+                <div class="nav-item" onclick="navigateTo('letter')" data-page="letter">
+                    <i class="fas fa-envelope"></i>
+                    <span>Surat Spesial</span>
+                    <span class="nav-badge">1</span>
+                </div>
+                
+                <div class="nav-item" onclick="navigateTo('gallery')" data-page="gallery">
+                    <i class="fas fa-images"></i>
+                    <span>Memories</span>
+                    <span class="nav-badge">3</span>
+                </div>
+                
+                <div class="nav-item" onclick="navigateTo('music')" data-page="music">
+                    <i class="fas fa-music"></i>
+                    <span>Playlist</span>
+                    <span class="nav-badge">5</span>
+                </div>
+                
+                <div class="nav-item" onclick="navigateTo('gift')" data-page="gift">
+                    <i class="fas fa-gift"></i>
+                    <span>Hadiah</span>
+                </div>
+
+                <div class="nav-item special" onclick="navigateTo('pesan')" data-page="pesan">
+                    <i class="fas fa-heart"></i>
+                    <span>Pesan Dariku</span>
                 </div>
             </div>
-        </section>
 
-        <!-- Lightbox -->
-        <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
-            <div class="lightbox-content">
+            <div class="sidebar-footer">
+                Made with 💖 by Ashar<br>
+                27 April 2026
+            </div>
+        </nav>
+
+        <!-- Content Area -->
+        <main class="content-area">
+            <!-- Background Blobs -->
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+
+            <!-- HOME PAGE -->
+            <section class="page active" id="page-home">
+                <div class="home-content">
+                    <div class="home-icon">🎉</div>
+                    <h1 class="home-title">Happy Birthday</h1>
+                    <span class="home-name">Kakak Tersayang</span>
+                    <p class="home-message">
+                        Selamat datang! Ini adalah website spesial yang kubuat hanya untukmu. 
+                        Jelajahi setiap menu di sidebar untuk melihat semua kejutan yang telah aku siapkan! 💕
+                    </p>
+                    <div class="home-badge">
+                        <i class="fas fa-calendar-heart"></i>
+                        <span>27 April 2026</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LETTER PAGE -->
+            <section class="page" id="page-letter">
+                <h2 class="page-title">Surat Spesial 💌</h2>
+                <div class="letter-container">
+                    <div class="envelope" onclick="toggleLetter(this)">
+                        <h3>Ada Surat Untukmu!</h3>
+                        <p>Klik buat buka ya~</p>
+                        
+                        <div class="letter-content">
+                            <div class="letter-header">Untuk Kakak Tersayang,</div>
+                            <div class="letter-body">
+                                <p>
+                                    Hai kakak! 🌸<br><br>
+                                    Selamat ulang tahun! Makasih udah jadi kakak terbaik buat aku. Meski kita seangkatan, tapi aku tetap respect manggil kamu kakak soalnya kamu lebih dewasa (dan lebih tua 1 tahun wkwk 😝).
+                                </p>
+                                <p>
+                                    Makasih udah sabar ngadepin aku yang kadang nyebelin, makasih udah jadi tempat curhat, dan makasih udah selalu ada buat aku. Semoga di umur yang baru ini, kakak makin sukses, makin bahagia, dan semua wishlist-nya tercapai!
+                                </p>
+                                <p>
+                                    Jangan lupa jaga kesehatan ya~ Love you kakak! 💕<br>
+                                    (P.S.: Traktiran mie ayam wajib ada! 🍜)
+                                </p>
+                            </div>
+                            <div class="letter-signature">- Ashar</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- GALLERY PAGE -->
+            <section class="page" id="page-gallery">
+                <h2 class="page-title">Memories Kita 📁</h2>
+                <div class="gallery-container">
+                    <div class="file-explorer">
+                        <div class="explorer-header">
+                            <i class="fas fa-folder-open"></i>
+                            <span>static/images/memories/</span>
+                        </div>
+                        <div class="explorer-body" id="folderContainer"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LIGHTBOX -->
+            <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
                 <button class="lightbox-close" onclick="closeLightbox()">
                     <i class="fas fa-times"></i>
                 </button>
                 <img id="lightboxImg" src="" alt="Photo">
-                <div class="lightbox-caption" id="lightboxCaption"></div>
             </div>
-        </div>
 
-        <!-- Music Section -->
-        <section id="music" class="music-section">
-            <div class="music-container">
-                <h2 class="section-title">Our Playlist 🎵</h2>
-                
-                <div class="vinyl-player">
-                    <div class="vinyl" id="vinyl"></div>
-                </div>
-
-                <div class="playlist-info">
-                    <div class="song-list" id="songList"></div>
-                    
-                    <div class="progress-bar" onclick="seek(event)">
-                        <div class="progress" id="progress"></div>
-                    </div>
-                    
-                    <button class="play-btn" onclick="togglePlay()" id="playBtn">
-                        <i class="fas fa-play"></i> Putar Lagu
-                    </button>
-                </div>
-
-                <p class="playlist-title">"Songs That Remind Me of You"</p>
-            </div>
-        </section>
-
-        <!-- Gift Section -->
-        <section id="gift" class="gift-section">
-            <div class="gift-wrapper">
-                <h2 class="section-title">Ada Hadiah! 🎁</h2>
-                
-                <div class="gift-box-container">
-                    <div class="gift-box" onclick="openGift(this)">
-                        <div class="gift-lid"></div>
-                        🎀
-                    </div>
-                </div>
-                
-                <p style="margin-bottom: 20px; color: var(--text-light); font-size: clamp(0.9rem, 3vw, 1rem);">
-                    Klik kotaknya ya~
-                </p>
-
-                <div class="surprise-content" id="surprise">
-                    <h2>Surprise! 🎉</h2>
-                    <p>Maaf ya kak, aku belum bisa ngasih hadiah mewah... Tapi aku punya sesuatu yang lebih spesial:</p>
-                    
-                    <div class="wishlist">
-                        <div class="wishlist-item">
-                            <i class="fas fa-star"></i>
-                            <span>Doa terbaik buat kakak</span>
-                        </div>
-                        <div class="wishlist-item">
-                            <i class="fas fa-hand-holding-heart"></i>
-                            <span>Janji bakal lebih nurut (insyaallah 😅)</span>
-                        </div>
-                        <div class="wishlist-item">
-                            <i class="fas fa-utensils"></i>
-                            <span>Traktiran mie ayam nanti! 🍜</span>
-                        </div>
-                        <div class="wishlist-item">
-                            <i class="fas fa-laptop-code"></i>
-                            <span>Website ini yang kubuat khusus buat kakak~</span>
-                        </div>
-                        <div class="wishlist-item">
-                            <i class="fas fa-heart"></i>
-                            <span>Love yang unlimited! 💕</span>
-                        </div>
+            <!-- MUSIC PAGE -->
+            <section class="page" id="page-music">
+                <h2 class="page-title">Our Playlist 🎵</h2>
+                <div class="music-container">
+                    <div class="vinyl-player">
+                        <div class="vinyl" id="vinyl"></div>
                     </div>
 
-                    <p class="closing-message">
-                        Happy Birthday Kakak! 🎂🎈
+                    <div class="playlist-box">
+                        <div class="song-list" id="songList"></div>
+                        
+                        <div class="progress-bar-music" onclick="seek(event)">
+                            <div class="progress" id="progress"></div>
+                        </div>
+                        
+                        <button class="play-btn" onclick="togglePlay()" id="playBtn">
+                            <i class="fas fa-play"></i> Putar Lagu
+                        </button>
+                    </div>
+
+                    <p style="font-family: 'Caveat', cursive; font-size: 1.5rem; color: var(--soft-pink); margin-top: 20px; text-align: center;">
+                        "Songs That Remind Me of You"
                     </p>
-                    
-                    <button class="play-btn" onclick="resetGift()" style="margin-top: 20px;">
-                        <i class="fas fa-redo"></i> Buka Lagi
-                    </button>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Footer -->
-        <footer>
-            <p>Made with 💖 by Ashar | 27 April 2026</p>
-        </footer>
+            <!-- GIFT PAGE -->
+            <section class="page" id="page-gift">
+                <h2 class="page-title">Ada Hadiah! 🎁</h2>
+                <div class="gift-container">
+                    <div class="gift-box-container">
+                        <div class="gift-box" id="main-gift-box" onclick="openGift(this)">
+                            <div class="gift-lid"></div>
+                            🎀
+                        </div>
+                    </div>
+                    
+                    <p style="text-align: center; margin-bottom: 20px; color: var(--text-light);">
+                        Klik kotaknya ya~
+                    </p>
 
-        <!-- Confetti Button -->
-        <button class="confetti-btn" onclick="shootConfetti()" title="Kirim Confetti!">
-            <i class="fas fa-wand-magic-sparkles"></i>
+                    <div class="surprise-content" id="surprise">
+                        <h2 style="font-family: 'Caveat', cursive; font-size: 2.5rem; color: var(--soft-pink); text-align: center; margin-bottom: 20px;">
+                            Surprise! 🎉
+                        </h2>
+                        <p style="text-align: center; margin-bottom: 20px;">
+                            Maaf ya kak, aku belum bisa ngasih hadiah mewah... Tapi aku punya sesuatu yang lebih spesial:
+                        </p>
+                        
+                        <div class="wishlist">
+                            <div class="wishlist-item">
+                                <i class="fas fa-star"></i>
+                                <span>Doa terbaik buat kakak</span>
+                            </div>
+                            <div class="wishlist-item">
+                                <i class="fas fa-hand-holding-heart"></i>
+                                <span>Janji bakal lebih nurut (insyaallah 😅)</span>
+                            </div>
+                            <div class="wishlist-item">
+                                <i class="fas fa-utensils"></i>
+                                <span>Traktiran mie ayam nanti! 🍜</span>
+                            </div>
+                            <div class="wishlist-item">
+                                <i class="fas fa-laptop-code"></i>
+                                <span>Website ini yang kubuat khusus buat kakak~</span>
+                            </div>
+                            <div class="wishlist-item">
+                                <i class="fas fa-heart"></i>
+                                <span>Love yang unlimited! 💕</span>
+                            </div>
+                        </div>
+
+                        <p style="font-family: 'Caveat', cursive; font-size: 1.8rem; color: var(--soft-pink); text-align: center; margin-top: 30px;">
+                            Happy Birthday Kakak! 🎂🎈
+                        </p>
+                        
+                        <button class="play-btn" onclick="resetGift()" style="margin-top: 20px;">
+                            <i class="fas fa-redo"></i> Buka Lagi
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PESAN DARIKU PAGE (SPECIAL) -->
+            <section class="page" id="page-pesan">
+                <h2 class="page-title">Pesan Dariku 💝</h2>
+                <div class="pesan-container">
+                    <div class="pesan-card">
+                        <div class="pesan-header">Untuk Kakak yang Paling Spesial</div>
+                        
+                        <div class="pesan-content">
+                            <p>
+                                Kakak...
+                            </p>
+                            <p>
+                                Di hari yang spesial ini, aku cuma pengen bilang betapa bersyukurnya aku punya kakak seperti kamu. 
+                                Meski kita sering bertengkar, meski kita sering saling jahilin, tapi di balik semua itu, 
+                                aku sangat menghargai kehadiranmu dalam hidupku.
+                            </p>
+                            <p>
+                                Kamu adalah kakak yang selalu ada saat aku butuh, yang selalu mendengarkan ceritaku meski kadang 
+                                ceritaku nggak penting, yang selalu support aku dalam hal apapun. Makasih ya kak...
+                            </p>
+                            <p>
+                                Aku harap di umur yang baru ini, semua impianmu tercapai. Semoga kamu selalu bahagia, 
+                                selalu sehat, dan selalu dikelilingi orang-orang yang sayang sama kamu. 
+                                Jangan pernah berubah ya kak, tetaplah jadi kakak yang aku kenal 💕
+                            </p>
+                            <p>
+                                Sekali lagi, Selamat Ulang Tahun! 🎂🎉
+                            </p>
+                        </div>
+                        
+                        <div class="pesan-signature">- Ashar</div>
+                        <div class="pesan-date">27 April 2026</div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Mobile Toggle Button -->
+        <button class="sidebar-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-bars" id="toggle-icon"></i>
         </button>
 
         <!-- Toast -->
@@ -1278,10 +1527,105 @@
 
     <script>
         // ============================================
-        // INTRO ANIMATION SCRIPT
+        // CLOCK FUNCTIONALITY
+        // ============================================
+        
+        function updateClock() {
+            const now = new Date();
+            
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 
+                           'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            
+            const dayName = days[now.getDay()];
+            const date = now.getDate();
+            const month = months[now.getMonth()];
+            const year = now.getFullYear();
+            
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            // Update sidebar clock
+            document.getElementById('sidebar-day').textContent = dayName;
+            document.getElementById('sidebar-date').textContent = `${date} ${month} ${year}`;
+            document.getElementById('sidebar-hours').textContent = hours;
+            document.getElementById('sidebar-minutes').textContent = minutes;
+            document.getElementById('sidebar-seconds').textContent = `:${seconds}`;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // ============================================
+        // NAVIGATION
         // ============================================
 
-        // Generate Stars
+        let currentPage = 'home';
+
+        function navigateTo(page) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.remove('active');
+            });
+            
+            // Show target page
+            document.getElementById(`page-${page}`).classList.add('active');
+            
+            // Update nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.page === page) {
+                    item.classList.add('active');
+                }
+            });
+            
+            currentPage = page;
+            
+            // Close sidebar on mobile
+            if (window.innerWidth <= 768) {
+                toggleSidebar();
+            }
+            
+            // Special effects for certain pages
+            if (page === 'gift' && !giftOpened) {
+                // Reset gift box visibility when navigating to gift page
+                const box = document.getElementById('main-gift-box');
+                const surprise = document.getElementById('surprise');
+                if (box && surprise) {
+                    box.style.display = 'flex';
+                    box.classList.remove('opened');
+                    surprise.classList.remove('show');
+                }
+            }
+            
+            // Trigger confetti on home
+            if (page === 'home') {
+                setTimeout(() => shootConfetti(), 300);
+            }
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay-mobile');
+            const icon = document.getElementById('toggle-icon');
+            
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('show');
+            
+            if (sidebar.classList.contains('open')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        }
+
+        // ============================================
+        // INTRO ANIMATION
+        // ============================================
+
         function createStars() {
             const starsContainer = document.getElementById('stars');
             for (let i = 0; i < 100; i++) {
@@ -1294,7 +1638,6 @@
             }
         }
 
-        // Generate Balloons
         function createBalloons() {
             const balloonsContainer = document.getElementById('balloons');
             const balloonEmojis = ['🎈', '🎉', '🎊', '💖', '✨'];
@@ -1310,7 +1653,6 @@
             }
         }
 
-        // Loading Animation
         function startLoading() {
             let progress = 0;
             const progressBar = document.getElementById('progress-bar');
@@ -1332,7 +1674,6 @@
             }, 200);
         }
 
-        // Typewriter Effect
         function typeWriter(text, element, speed = 100) {
             let i = 0;
             element.innerHTML = '';
@@ -1348,7 +1689,6 @@
             type();
         }
 
-        // Show Intro Content
         function showIntro() {
             document.getElementById('loading-container').style.display = 'none';
             document.getElementById('intro-content').style.display = 'block';
@@ -1359,9 +1699,12 @@
             
             setTimeout(() => {
                 const texts = [
-                    "Ada sesuatu yang spesial buat kakak...",
-                    "Siap-siap ya...",
-                    "Scroll ke bawah untuk melihat kejutan! 🎁"
+                    "Kak Rinrin! 👋",
+                    "Hari ini aku punya sesuatu buat kamu.",
+                    "Bukan hadiah besar sih...",
+                    "Cuma halaman kecil yang aku buat sendiri.",
+                    "Tapi aku bikinnya serius loh 😆",
+                    "Siap lihat kejutannya? ✨"
                 ];
                 let currentText = 0;
                 
@@ -1369,7 +1712,7 @@
                     if (currentText < texts.length) {
                         typeWriter(texts[currentText], document.getElementById('type-text'), 50);
                         currentText++;
-                        setTimeout(showNextText, 3000);
+                        setTimeout(showNextText, 2500);
                     } else {
                         setTimeout(() => {
                             document.getElementById('enter-btn').classList.add('show');
@@ -1381,13 +1724,11 @@
             }, 800);
         }
 
-        // Enter Site
         function enterSite() {
             const overlay = document.getElementById('transition-overlay');
             const introScreen = document.getElementById('intro-screen');
-            const mainContent = document.getElementById('main-content');
+            const app = document.getElementById('app');
             
-            // Confetti explosion
             confetti({
                 particleCount: 200,
                 spread: 100,
@@ -1395,22 +1736,21 @@
                 colors: ['#FFB6C1', '#E6E6FA', '#98FF98', '#FFDAB9', '#FF6B9D', '#FFF']
             });
             
-            // Transition effect
             overlay.classList.add('active');
             
             setTimeout(() => {
                 introScreen.style.display = 'none';
-                mainContent.classList.add('visible');
+                app.style.display = 'flex';
+                app.classList.add('visible');
                 overlay.style.transformOrigin = 'top';
                 overlay.style.transform = 'scaleY(0)';
                 
-                // Initialize main content
-                initMainContent();
+                initApp();
             }, 800);
         }
 
         // ============================================
-        // MAIN CONTENT SCRIPT (Your Original Logic)
+        // APP INITIALIZATION
         // ============================================
 
         let currentAudio = null;
@@ -1442,7 +1782,7 @@
                 photos: [
                     { src: 'static/images/folder3/Axelum 5.jpg', caption: 'Main 1' },
                     { src: 'static/images/folder3/Axelum 6.jpg', caption: 'Main 2' },
-                    { src: 'static/images/folder3/Axelum 7.jpeg', caption: 'Main 2' }
+                    { src: 'static/images/folder3/Axelum 7.jpeg', caption: 'Main 3' }
                 ]
             }
         ];
@@ -1455,29 +1795,10 @@
             { path: 'static/audio/Youll Be in My Heart.mp3', title: 'Youll be in My Heart', artist: ''}
         ];
 
-        function initMainContent() {
+        function initApp() {
             renderFolders();
             renderSongs();
-            setTimeout(() => {
-                shootConfetti();
-            }, 500);
-            
-            // Intersection Observer
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if(entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-            document.querySelectorAll('section').forEach(section => {
-                section.style.opacity = '0';
-                section.style.transform = 'translateY(30px)';
-                section.style.transition = 'all 0.8s ease';
-                observer.observe(section);
-            });
+            setTimeout(() => shootConfetti(), 500);
         }
 
         function renderFolders() {
@@ -1565,7 +1886,6 @@
 
         function openLightbox(src, caption) {
             document.getElementById('lightboxImg').src = src;
-            document.getElementById('lightboxCaption').textContent = caption;
             document.getElementById('lightbox').classList.add('show');
         }
 
@@ -1657,7 +1977,7 @@
                 document.getElementById('progress').style.width = '0%';
             };
 
-            showToast(`${song.title} - ${song.artist}`);
+            showToast(`${song.title}`);
         }
 
         function togglePlay() {
@@ -1717,7 +2037,7 @@
         }
 
         function resetGift() {
-            const box = document.querySelector('.gift-box');
+            const box = document.getElementById('main-gift-box');
             const surprise = document.getElementById('surprise');
             
             surprise.classList.remove('show');
@@ -1733,7 +2053,6 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // Initialize Intro
         window.onload = function() {
             createStars();
             createBalloons();
