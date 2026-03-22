@@ -1637,7 +1637,9 @@
                     maxlength="20"
                     autocomplete="off"
                 >
-                <button class="password-toggle" onclick="togglePasswordVisibility()"></button>
+                <button class="password-toggle" onclick="togglePasswordVisibility()">
+                    <i class="fas fa-eye" id="toggle-icon-pass"></i>
+                </button>
             </div>
             
             <button class="password-btn" onclick="checkPassword()" id="password-btn">
@@ -2863,7 +2865,7 @@
         // ============================================
         
         // GANTI INI DENGAN PASSWORD YANG KAMU MAU
-        const CORRECT_PASSWORD = "Kamu Milikku";
+        const CORRECT_PASSWORD = "Kamu milikku, kamu segalanya bagiku"; // Format: DDMMYYYY
         
         let passwordVerified = false;
 
