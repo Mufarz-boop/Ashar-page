@@ -1415,9 +1415,246 @@
                 display: none !important;
             }
         }
+
+        /* ============================================
+        PASSWORD SCREEN - PALING PALING AWAL
+        ============================================ */
+
+        #password-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            z-index: 20000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .password-stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .password-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle-star 3s infinite;
+        }
+
+        .password-container {
+            text-align: center;
+            z-index: 10;
+            max-width: 90%;
+            padding: 20px;
+        }
+
+        .password-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: lock-pulse 2s infinite;
+            filter: drop-shadow(0 0 20px rgba(255,182,193,0.6));
+        }
+
+        @keyframes lock-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .password-title {
+            font-family: 'Caveat', cursive;
+            font-size: clamp(2rem, 6vw, 3rem);
+            color: var(--soft-pink);
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255,182,193,0.8);
+        }
+
+        .password-subtitle {
+            font-family: 'Quicksand', sans-serif;
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 40px;
+        }
+
+        .password-input-wrapper {
+            position: relative;
+            max-width: 300px;
+            margin: 0 auto 20px;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 18px 50px 18px 20px;
+            border: 2px solid rgba(255, 182, 193, 0.3);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            text-align: center;
+            letter-spacing: 5px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .password-input::placeholder {
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 2px;
+        }
+
+        .password-input:focus {
+            border-color: var(--soft-pink);
+            box-shadow: 0 0 30px rgba(255,182,193,0.3);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.6);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+            transition: color 0.3s;
+        }
+
+        .password-toggle:hover {
+            color: var(--soft-pink);
+        }
+
+        .password-btn {
+            background: linear-gradient(135deg, var(--soft-pink), var(--peach));
+            color: white;
+            border: none;
+            padding: 16px 50px;
+            border-radius: 50px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255,182,193,0.4);
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .password-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(255,182,193,0.6);
+        }
+
+        .password-btn:active {
+            transform: scale(0.95);
+        }
+
+        .password-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .password-error {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 15px;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            height: 20px;
+        }
+
+        .password-error.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .password-hint {
+            margin-top: 30px;
+            padding: 15px 20px;
+            background: rgba(255, 182, 193, 0.1);
+            border-radius: 15px;
+            border: 1px dashed rgba(255, 182, 193, 0.3);
+        }
+
+        .password-hint-text {
+            font-family: 'Caveat', cursive;
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .password-hint-label {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .shake {
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
     </style>
 </head>
 <body>
+    <!-- ============================================
+    PASSWORD SCREEN - PALING PALING AWAL
+    ============================================ -->
+    <div id="password-screen">
+        <div class="password-stars" id="password-stars"></div>
+        
+        <div class="password-container">
+            <div class="password-icon">🔐</div>
+            <h1 class="password-title">Secret Page</h1>
+            <p class="password-subtitle">Enter the password to continue</p>
+            
+            <div class="password-input-wrapper">
+                <input 
+                    type="password" 
+                    id="password-input" 
+                    class="password-input" 
+                    placeholder="Enter password..." 
+                    maxlength="20"
+                    autocomplete="off"
+                >
+                <button class="password-toggle" onclick="togglePasswordVisibility()"></button>
+            </div>
+            
+            <button class="password-btn" onclick="checkPassword()" id="password-btn">
+                <i class="fas fa-unlock"></i> Unlock
+            </button>
+            
+            <div class="password-error" id="password-error">
+                <i class="fas fa-exclamation-circle"></i> Kalau salah, berarti kamu milikku.
+            </div>
+
+            <div class="password-hint">
+                <div class="password-hint-label">Ayo berpikir</div>
+                <div class="password-hint-text">Coba tebak apa passwordnya</div>
+            </div>
+        </div>
+    </div>
+
     <!-- ============================================
          COUNTDOWN SCREEN - PALING AWAL
          ============================================ -->
@@ -1536,8 +1773,8 @@
                 </div>
                 
                 <div class="nav-item" onclick="navigateTo('music')" data-page="music">
-                    <i class="fas fa-music"></i>
-                    <span>Songs That Remind Me of You</span>
+                    <i class="fas fa-headphones"></i>
+                    <span>Songs</span>
                 </div>
                 
                 <div class="nav-item" onclick="navigateTo('gift')" data-page="gift">
@@ -2287,28 +2524,48 @@
 
         const FOLDERS = [
             {
-                name: '📸 Foto Bareng',
+                name: 'Foto Kamu yang aku miliki 🖼️🤍',
                 id: 'folder1',
                 photos: [
-                    { src: 'static/images/folder1/Axelum 1.jpg', caption: 'Foto 1' },
-                    { src: 'static/images/folder1/Axelum 2.jpg', caption: 'Foto 2' }
+                    { src: 'static/images/folder1/rinrin 1.jpeg'},
+                    { src: 'static/images/folder1/rinrin 2.jpeg'},
+                    { src: 'static/images/folder1/rinrin 3.jpeg'},
+                    { src: 'static/images/folder1/rinrin 4.jpeg'},
+                    { src: 'static/images/folder1/rinrin 5.jpeg'},
+                    { src: 'static/images/folder1/rinrin 6.jpeg'},
+                    { src: 'static/images/folder1/rinrin 7.jpeg'},
+                    { src: 'static/images/folder1/rinrin 8.jpeg'},
+                    { src: 'static/images/folder1/rinrin 10.jpeg'}
                 ]
             },
             {
-                name: '🍜 Makan-Makan',
+                name: 'Impian kamu 💼✨',
                 id: 'folder2',
                 photos: [
-                    { src: 'static/images/folder2/Axelum 3.jpg', caption: 'Makan 1' },
-                    { src: 'static/images/folder2/Axelum 4.jpg', caption: 'Makan 2' }
+                    { src: 'static/images/folder2/dream 1.jpeg'},
+                    { src: 'static/images/folder2/dream 2.jpeg'},
+                    { src: 'static/images/folder2/dream 3.jpeg'},
+                    { src: 'static/images/folder2/dream 4.jpeg'},
+                    { src: 'static/images/folder2/dream 5.jpeg'},
+                    { src: 'static/images/folder2/dream 6.jpeg'},
+                    { src: 'static/images/folder2/dream 7.jpeg'},
+                    { src: 'static/images/folder2/dream 8.jpeg'},
+                    { src: 'static/images/folder2/dream 9.jpeg'}
                 ]
             },
             {
-                name: '🎮 Main Bareng',
+                name: 'Negara Impian Kamu ✈️🌏',
                 id: 'folder3',
                 photos: [
-                    { src: 'static/images/folder3/Axelum 5.jpg', caption: 'Main 1' },
-                    { src: 'static/images/folder3/Axelum 6.jpg', caption: 'Main 2' },
-                    { src: 'static/images/folder3/Axelum 7.jpeg', caption: 'Main 3' }
+                    { src: 'static/images/folder3/.jpg'},
+                    { src: 'static/images/folder3/.jpg'},
+                    { src: 'static/images/folder3/.jpg'},
+                    { src: 'static/images/folder3/.jpg'},
+                    { src: 'static/images/folder3/.jpg'},
+                    { src: 'static/images/folder3/.jpg'},
+                    { src: 'static/images/folder3/.jpg'},
+                    { src: 'static/images/folder3/.jpg'},
+                    { src: 'static/images/folder3/.jpg'}
                 ]
             }
         ];
@@ -2599,6 +2856,116 @@
             createCountdownStars();
             updateCountdown();
             countdownInterval = setInterval(updateCountdown, 1000);
+        };
+
+        // ============================================
+        // PASSWORD FUNCTIONALITY - PALING PALING AWAL
+        // ============================================
+        
+        // GANTI INI DENGAN PASSWORD YANG KAMU MAU
+        const CORRECT_PASSWORD = "Kamu Milikku";
+        
+        let passwordVerified = false;
+
+        function createPasswordStars() {
+            const starsContainer = document.getElementById('password-stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'password-star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function togglePasswordVisibility() {
+            const input = document.getElementById('password-input');
+            const icon = document.getElementById('toggle-icon-pass');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function checkPassword() {
+            const input = document.getElementById('password-input');
+            const error = document.getElementById('password-error');
+            const btn = document.getElementById('password-btn');
+            const password = input.value.trim();
+
+            if (password === CORRECT_PASSWORD) {
+                // Password benar!
+                passwordVerified = true;
+                btn.innerHTML = '<i class="fas fa-check"></i> Success!';
+                btn.style.background = 'linear-gradient(135deg, #98FF98, #90EE90)';
+                
+                // Efek confetti
+                confetti({
+                    particleCount: 150,
+                    spread: 100,
+                    origin: { y: 0.6 },
+                    colors: ['#98FF98', '#FFB6C1', '#E6E6FA', '#FFDAB9', '#FFF']
+                });
+
+                setTimeout(() => {
+                    const passwordScreen = document.getElementById('password-screen');
+                    passwordScreen.style.transition = 'opacity 0.8s ease';
+                    passwordScreen.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        passwordScreen.style.display = 'none';
+                        // Mulai countdown setelah password benar
+                        initCountdown();
+                    }, 800);
+                }, 1000);
+                
+            } else {
+                // Password salah
+                input.classList.add('shake');
+                error.classList.add('show');
+                input.value = '';
+                input.focus();
+                
+                // Efek error confetti (merah)
+                confetti({
+                    particleCount: 30,
+                    spread: 50,
+                    origin: { y: 0.6 },
+                    colors: ['#ff6b6b', '#ff8e8e']
+                });
+                
+                setTimeout(() => {
+                    input.classList.remove('shake');
+                    error.classList.remove('show');
+                }, 2000);
+            }
+        }
+
+        // Enter key untuk submit
+        document.getElementById('password-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        function initCountdown() {
+            // Pindahkan semua inisialisasi countdown ke sini
+            createCountdownStars();
+            updateCountdown();
+            countdownInterval = setInterval(updateCountdown, 1000);
+        }
+
+        // MODIFIKASI window.onload jadi gini:
+        window.onload = function() {
+            createPasswordStars();
+            // Countdown nggak di-start dulu, nunggu password
         };
     </script>
 </body>
