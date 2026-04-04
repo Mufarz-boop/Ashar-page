@@ -2212,5 +2212,760 @@
         <!-- Toast -->
         <div class="toast" id="toast"></div>
     </div>
+
+    <script>
+        // ============================================
+        // COUNTDOWN FUNCTIONALITY - PALING AWAL
+        // ============================================
+        
+        let countdownInterval;
+        let isUnlocked = false;
+
+        function createCountdownStars() {
+            const starsContainer = document.getElementById('countdown-stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'countdown-star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function updateCountdown() {
+            // Target: 27 April 2025, 00:00:00
+            const targetDate = new Date('2025-04-27T00:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            if (distance <= 0) {
+                // Countdown selesai!
+                clearInterval(countdownInterval);
+                showUnlockScreen();
+                return;
+            }
+
+            // Hitung waktu
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Update tampilan
+            document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
+            document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('cd-minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('cd-seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        function showUnlockScreen() {
+            document.getElementById('countdown-boxes').style.display = 'none';
+            document.querySelector('.countdown-date').style.display = 'none';
+            document.querySelector('.countdown-subtitle').style.display = 'none';
+            document.getElementById('countdown-complete').style.display = 'block';
+            
+            // Efek confetti saat unlock tersedia
+            confetti({
+                particleCount: 150,
+                spread: 100,
+                origin: { y: 0.6 },
+                colors: ['#FFB6C1', '#E6E6FA', '#98FF98', '#FFDAB9', '#FF6B9D', '#FFF']
+            });
+        }
+
+        function unlockWebsite() {
+            if (isUnlocked) return;
+            isUnlocked = true;
+            
+            const countdownScreen = document.getElementById('countdown-screen');
+            const introScreen = document.getElementById('intro-screen');
+            
+            // Efek transisi
+            countdownScreen.style.transition = 'opacity 0.8s ease';
+            countdownScreen.style.opacity = '0';
+            
+            setTimeout(() => {
+                countdownScreen.style.display = 'none';
+                introScreen.style.display = 'flex';
+                
+                // Mulai loading screen
+                createStars();
+                createBalloons();
+                startLoading();
+            }, 800);
+        }
+
+        // ============================================
+        // CLOCK FUNCTIONALITY
+        // ============================================
+        
+        function updateClock() {
+            const now = new Date();
+            
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                           'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            const dayName = days[now.getDay()];
+            const date = now.getDate();
+            const month = months[now.getMonth()];
+            const year = now.getFullYear();
+            
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            // Update sidebar clock
+            document.getElementById('sidebar-day').textContent = dayName;
+            document.getElementById('sidebar-date').textContent = `${date} ${month} ${year}`;
+            document.getElementById('sidebar-hours').textContent = hours;
+            document.getElementById('sidebar-minutes').textContent = minutes;
+            document.getElementById('sidebar-seconds').textContent = `:${seconds}`;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // ============================================
+        // SIDEBAR NAVIGATION
+        // ============================================
+
+        let currentPage = 'home';
+        let sidebarOpen = false;
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay-mobile');
+            const toggleBtn = document.getElementById('menu-toggle');
+            const icon = document.getElementById('toggle-icon');
+            
+            sidebarOpen = !sidebarOpen;
+            
+            if (sidebarOpen) {
+                sidebar.classList.add('open');
+                overlay.classList.add('show');
+                toggleBtn.classList.add('sidebar-open');
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('show');
+                toggleBtn.classList.remove('sidebar-open');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        }
+
+        function navigateTo(page) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(p => {
+                p.classList.remove('active');
+            });
+            
+            // Show target page
+            document.getElementById(`page-${page}`).classList.add('active');
+            
+            // Update nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.page === page) {
+                    item.classList.add('active');
+                }
+            });
+            
+            currentPage = page;
+            
+            // Close sidebar on mobile
+            if (window.innerWidth <= 768 && sidebarOpen) {
+                toggleSidebar();
+            }
+            
+            // Special effects
+            if (page === 'home') {
+                setTimeout(() => shootConfetti(), 300);
+            }
+        }
+
+        // ============================================
+        // INTRO ANIMATION
+        // ============================================
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function createBalloons() {
+            const balloonsContainer = document.getElementById('balloons');
+            const balloonEmojis = ['M', 'Y', 'S', 'I', 'S', 'T', 'E', 'R', 'I', 'S', 'R', 'A', 'Z', 'I', 'T', 'A', 'N', 'U', 'R', 'I', 'N'];
+            
+            for (let i = 0; i < 10; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.innerHTML = balloonEmojis[Math.floor(Math.random() * balloonEmojis.length)];
+                balloon.style.left = Math.random() * 100 + '%';
+                balloon.style.animationDelay = Math.random() * 8 + 's';
+                balloon.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                balloonsContainer.appendChild(balloon);
+            }
+        }
+
+        function startLoading() {
+            let progress = 0;
+            const progressBar = document.getElementById('progress-bar');
+            const percentage = document.getElementById('percentage');
+            
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    
+                    setTimeout(() => {
+                        showIntro();
+                    }, 500);
+                }
+                
+                progressBar.style.width = progress + '%';
+                percentage.textContent = Math.floor(progress) + '%';
+            }, 200);
+        }
+
+        function typeWriter(text, element, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            
+            type();
+        }
+
+        function showIntro() {
+            document.getElementById('loading-container').style.display = 'none';
+            document.getElementById('intro-content').style.display = 'block';
+            
+            setTimeout(() => {
+                document.getElementById('intro-title').classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                const texts = [
+                    "Hai Kak Rinrin! 👋",
+                    "Aku mau nunjukin sesuatu ke kamu...",
+                    "Sebenarnya ini udah aku siapin dari lama.",
+                    "Mungkin sederhana sih...",
+                    "Tapi aku harap kamu suka.",
+                    "Mau lihat? klik tombol di bawah kalo berani."
+                ];
+                let currentText = 0;
+                
+                function showNextText() {
+                    if (currentText < texts.length) {
+                        typeWriter(texts[currentText], document.getElementById('type-text'), 50);
+                        currentText++;
+                        setTimeout(showNextText, 2500);
+                    } else {
+                        setTimeout(() => {
+                            document.getElementById('enter-btn').classList.add('show');
+                        }, 500);
+                    }
+                }
+                
+                showNextText();
+            }, 800);
+        }
+
+        function enterSite() {
+            const overlay = document.getElementById('transition-overlay');
+            const introScreen = document.getElementById('intro-screen');
+            const app = document.getElementById('app');
+            
+            confetti({
+                particleCount: 200,
+                spread: 100,
+                origin: { y: 0.6 },
+                colors: ['#FFB6C1', '#E6E6FA', '#98FF98', '#FFDAB9', '#FF6B9D', '#FFF']
+            });
+            
+            overlay.classList.add('active');
+            
+            setTimeout(() => {
+                introScreen.style.display = 'none';
+                app.style.display = 'flex';
+                app.classList.add('visible');
+                overlay.style.transformOrigin = 'top';
+                overlay.style.transform = 'scaleY(0)';
+                
+                initApp();
+            }, 800);
+        }
+
+        // ============================================
+        // APP INITIALIZATION
+        // ============================================
+
+        let currentAudio = null;
+               let isPlaying = false;
+        let currentSongIndex = 0;
+        let giftOpened = false;
+        let openFolder = null;
+
+        const FOLDERS = [
+            {
+                name: 'Foto Kamu yang aku miliki 🖼️🤍',
+                id: 'folder1',
+                photos: [
+                    { src: 'static/images/folder1/rinrin 1.jpeg'},
+                    { src: 'static/images/folder1/rinrin 2.jpeg'},
+                    { src: 'static/images/folder1/rinrin 3.jpeg'},
+                    { src: 'static/images/folder1/rinrin 4.jpeg'},
+                    { src: 'static/images/folder1/rinrin 5.jpeg'},
+                    { src: 'static/images/folder1/rinrin 6.jpeg'},
+                    { src: 'static/images/folder1/rinrin 7.jpeg'},
+                    { src: 'static/images/folder1/rinrin 8.jpeg'},
+                    { src: 'static/images/folder1/rinrin 10.jpeg'}
+                ]
+            },
+            {
+                name: 'Impian kamu 💼✨',
+                id: 'folder2',
+                photos: [
+                    { src: 'static/images/folder2/dream 1.jpeg'},
+                    { src: 'static/images/folder2/dream 2.jpeg'},
+                    { src: 'static/images/folder2/dream 3.jpeg'},
+                    { src: 'static/images/folder2/dream 4.jpeg'},
+                    { src: 'static/images/folder2/dream 5.jpeg'},
+                    { src: 'static/images/folder2/dream 6.jpeg'},
+                    { src: 'static/images/folder2/dream 7.jpeg'},
+                    { src: 'static/images/folder2/dream 8.jpeg'},
+                    { src: 'static/images/folder2/dream 9.jpeg'}
+                ]
+            },
+            {
+                name: 'Negara Impian Kamu ✈️🌏',
+                id: 'folder3',
+                photos: [
+                    { src: 'static/images/folder3/russia 1.jpeg'},
+                    { src: 'static/images/folder3/russia 2.jpeg'},
+                    { src: 'static/images/folder3/russia 3.jpeg'},
+                    { src: 'static/images/folder3/swiss 1.jpeg'},
+                    { src: 'static/images/folder3/swiss 2.jpeg'},
+                    { src: 'static/images/folder3/swiss 3.jpeg'}
+                ],
+            }
+        ];
+
+        const STATIC_SONGS = [
+            { path: 'static/audio/An Art Gallery Could Never Be As Unique As You.mp3', title: 'An Art Gallery Could Never Be As Unique As You', artist: '' },
+            { path: 'static/audio/Ill Never Love Again from A Star Is Born Official Music Video.mp3', title: 'Ill Never Love Again from A Star Is Born', artist: '' },
+            { path: 'static/audio/Kesayanganku.mp3', title: 'Kesayanganku', artist: '' },
+            { path: 'static/audio/Surat Cinta Untuk Starla.mp3' , title: 'Surat Cinta Untuk Starla', artist: ''},
+            { path: 'static/audio/Youll Be in My Heart.mp3', title: 'Youll be in My Heart', artist: ''}
+        ];
+
+        function initApp() {
+            renderFolders();
+            renderSongs();
+            setTimeout(() => shootConfetti(), 500);
+        }
+
+        function renderFolders() {
+            const container = document.getElementById('folderContainer');
+            container.innerHTML = '';
+
+            FOLDERS.forEach(folder => {
+                const folderEl = document.createElement('div');
+                folderEl.className = 'folder-wrapper';
+                
+                folderEl.innerHTML = `
+                    <div class="folder-item" onclick="toggleFolder('${folder.id}')">
+                        <div class="folder-icon">📁</div>
+                        <div class="folder-info">
+                            <div class="folder-name">${folder.name}</div>
+                            <div class="folder-count">${folder.photos.length} foto</div>
+                        </div>
+                        <i class="fas fa-chevron-right folder-arrow" id="arrow-${folder.id}"></i>
+                    </div>
+                    <div class="folder-content" id="content-${folder.id}">
+                        <div class="photos-grid" id="grid-${folder.id}"></div>
+                    </div>
+                `;
+                
+                container.appendChild(folderEl);
+                loadFolderPhotos(folder);
+            });
+        }
+
+        function loadFolderPhotos(folder) {
+            const grid = document.getElementById(`grid-${folder.id}`);
+            
+            folder.photos.forEach((photo) => {
+                const thumb = document.createElement('div');
+                thumb.className = 'photo-thumb';
+                
+                const img = new Image();
+                img.onload = function() {
+                    thumb.innerHTML = `<img src="${photo.src}" alt="${photo.caption}">`;
+                };
+                img.onerror = function() {
+                    thumb.innerHTML = `<div class="placeholder"><span>📷</span></div>`;
+                };
+                img.src = photo.src;
+                
+                thumb.onclick = function(e) {
+                    e.stopPropagation();
+                    openLightbox(photo.src, photo.caption);
+                };
+                
+                grid.appendChild(thumb);
+            });
+        }
+
+        function toggleFolder(folderId) {
+            const content = document.getElementById(`content-${folderId}`);
+            const arrow = document.getElementById(`arrow-${folderId}`);
+            const folderItem = arrow.closest('.folder-item');
+            
+            if (openFolder && openFolder !== folderId) {
+                document.getElementById(`content-${openFolder}`).classList.remove('show');
+                document.getElementById(`arrow-${openFolder}`).style.transform = 'rotate(0deg)';
+                document.getElementById(`arrow-${openFolder}`).closest('.folder-item').classList.remove('open');
+            }
+            
+            if (content.classList.contains('show')) {
+                content.classList.remove('show');
+                arrow.style.transform = 'rotate(0deg)';
+                folderItem.classList.remove('open');
+                openFolder = null;
+            } else {
+                content.classList.add('show');
+                arrow.style.transform = 'rotate(90deg)';
+                folderItem.classList.add('open');
+                openFolder = folderId;
+                
+                confetti({
+                    particleCount: 30,
+                    spread: 50,
+                    origin: { y: 0.5 },
+                    colors: ['#FFB6C1', '#E6E6FA', '#98FF98']
+                });
+            }
+        }
+
+        function openLightbox(src, caption) {
+            document.getElementById('lightboxImg').src = src;
+            document.getElementById('lightbox').classList.add('show');
+        }
+
+        function closeLightbox(e) {
+            if (!e || e.target.id === 'lightbox' || e.target.closest('.lightbox-close')) {
+                document.getElementById('lightbox').classList.remove('show');
+            }
+        }
+
+        function renderSongs() {
+            const songList = document.getElementById('songList');
+            songList.innerHTML = '';
+            
+            STATIC_SONGS.forEach((song, index) => {
+                const item = document.createElement('div');
+                item.className = 'song-item';
+                item.onclick = () => selectSong(index);
+                item.innerHTML = `
+                    <i class="fas fa-music"></i>
+                    <div class="song-info">
+                        <span class="song-name">${song.title}</span>
+                        <span class="song-artist">${song.artist}</span>
+                    </div>
+                `;
+                songList.appendChild(item);
+            });
+        }
+
+        function shootConfetti() {
+            const colors = ['#FFB6C1', '#E6E6FA', '#98FF98', '#FFDAB9', '#FF6B9D'];
+            
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: colors
+            });
+
+            for(let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.innerHTML = '💖';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                    document.body.appendChild(heart);
+                    setTimeout(() => heart.remove(), 6000);
+                }, i * 300);
+            }
+        }
+
+        function toggleLetter(envelope) {
+            if(!envelope.classList.contains('open')) {
+                envelope.classList.add('open');
+                setTimeout(() => shootConfetti(), 300);
+            }
+        }
+
+        function selectSong(index) {
+            currentSongIndex = index;
+            
+            document.querySelectorAll('.song-item').forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+
+            if(currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+
+            const song = STATIC_SONGS[index];
+            currentAudio = new Audio(song.path);
+            currentAudio.loop = false;
+            
+            document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i> Putar Lagu';
+            isPlaying = false;
+            
+            currentAudio.ontimeupdate = function() {
+                if(currentAudio.duration) {
+                    const progress = (currentAudio.currentTime / currentAudio.duration) * 100;
+                    document.getElementById('progress').style.width = progress + '%';
+                }
+            };
+            
+            currentAudio.onended = function() {
+                isPlaying = false;
+                document.getElementById('vinyl').classList.remove('playing');
+                document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i> Putar Lagu';
+                document.getElementById('progress').style.width = '0%';
+            };
+
+            showToast(`${song.title}`);
+        }
+
+        function togglePlay() {
+            if(!currentAudio) {
+                selectSong(0);
+                return;
+            }
+
+            if(isPlaying) {
+                currentAudio.pause();
+                document.getElementById('vinyl').classList.remove('playing');
+                document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i> Putar Lagu';
+                isPlaying = false;
+            } else {
+                currentAudio.play().catch(e => {
+                    showToast('File lagu tidak ditemukan 🎵');
+                });
+                document.getElementById('vinyl').classList.add('playing');
+                document.getElementById('playBtn').innerHTML = '<i class="fas fa-pause"></i> Pause';
+                isPlaying = true;
+            }
+        }
+
+        function seek(e) {
+            if(currentAudio && currentAudio.duration) {
+                const rect = e.target.getBoundingClientRect();
+                const pos = (e.clientX - rect.left) / rect.width;
+                currentAudio.currentTime = pos * currentAudio.duration;
+            }
+        }
+
+        function openGift(box) {
+            if(!box.classList.contains('opened') && !giftOpened) {
+                box.classList.add('opened');
+                giftOpened = true;
+                
+                const end = Date.now() + 3000;
+                const frame = () => {
+                    confetti({
+                        particleCount: 8,
+                        spread: 120,
+                        origin: { y: 0.6 },
+                        colors: ['#FFB6C1', '#E6E6FA', '#98FF98', '#FFDAB9', '#FF6B9D', '#FFF']
+                    });
+                    
+                    if(Date.now() < end) requestAnimationFrame(frame);
+                };
+                frame();
+
+                setTimeout(() => {
+                    document.getElementById('surprise').classList.add('show');
+                    box.style.display = 'none';
+                }, 600);
+                
+                showToast('Terbuka! 🎁');
+            }
+        }
+
+        function resetGift() {
+            const box = document.getElementById('main-gift-box');
+            const surprise = document.getElementById('surprise');
+            
+            surprise.classList.remove('show');
+            box.style.display = 'flex';
+            box.classList.remove('opened');
+            giftOpened = false;
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.getElementById('menu-toggle');
+            
+            if (window.innerWidth <= 768 && sidebarOpen) {
+                if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
+                    toggleSidebar();
+                }
+            }
+        });
+
+        // ============================================
+        // INITIALIZE COUNTDOWN ON LOAD
+        // ============================================
+        
+        window.onload = function() {
+            createCountdownStars();
+            updateCountdown();
+            countdownInterval = setInterval(updateCountdown, 1000);
+        };
+
+        // ============================================
+        // PASSWORD FUNCTIONALITY - PALING PALING AWAL
+        // ============================================
+        
+        // GANTI INI DENGAN PASSWORD YANG KAMU MAU
+        const CORRECT_PASSWORD = "Mine. End of story.";
+        
+        let passwordVerified = false;
+
+        function createPasswordStars() {
+            const starsContainer = document.getElementById('password-stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'password-star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function togglePasswordVisibility() {
+            const input = document.getElementById('password-input');
+            const icon = document.getElementById('toggle-icon-pass');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function checkPassword() {
+            const input = document.getElementById('password-input');
+            const error = document.getElementById('password-error');
+            const btn = document.getElementById('password-btn');
+            const password = input.value.trim();
+
+            if (password === CORRECT_PASSWORD) {
+                // Password benar!
+                passwordVerified = true;
+                btn.innerHTML = '<i class="fas fa-check"></i> Success!';
+                btn.style.background = 'linear-gradient(135deg, #98FF98, #90EE90)';
+                
+                // Efek confetti
+                confetti({
+                    particleCount: 150,
+                    spread: 100,
+                    origin: { y: 0.6 },
+                    colors: ['#98FF98', '#FFB6C1', '#E6E6FA', '#FFDAB9', '#FFF']
+                });
+
+                setTimeout(() => {
+                    const passwordScreen = document.getElementById('password-screen');
+                    passwordScreen.style.transition = 'opacity 0.8s ease';
+                    passwordScreen.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        passwordScreen.style.display = 'none';
+                        // Mulai countdown setelah password benar
+                        initCountdown();
+                    }, 800);
+                }, 1000);
+                
+            } else {
+                // Password salah
+                input.classList.add('shake');
+                error.classList.add('show');
+                input.value = '';
+                input.focus();
+                
+                // Efek error confetti (merah)
+                confetti({
+                    particleCount: 30,
+                    spread: 50,
+                    origin: { y: 0.6 },
+                    colors: ['#ff6b6b', '#ff8e8e']
+                });
+                
+                setTimeout(() => {
+                    input.classList.remove('shake');
+                    error.classList.remove('show');
+                }, 2000);
+            }
+        }
+
+        // Enter key untuk submit
+        document.getElementById('password-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        function initCountdown() {
+            // Pindahkan semua inisialisasi countdown ke sini
+            createCountdownStars();
+            updateCountdown();
+            countdownInterval = setInterval(updateCountdown, 1000);
+        }
+
+        // MODIFIKASI window.onload jadi gini:
+        window.onload = function() {
+            createPasswordStars();
+            // Countdown nggak di-start dulu, nunggu password
+        };
+    </script>
 </body>
 </html>
