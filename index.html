@@ -915,124 +915,6 @@
             margin-top: 20px;
         }
 
-        /* File Explorer */
-        .file-explorer {
-            background: var(--white);
-            border-radius: 20px;
-            box-shadow: 0 15px 40px var(--shadow);
-            overflow: hidden;
-            border: 3px solid var(--folder-border);
-        }
-
-        .explorer-header {
-            background: linear-gradient(135deg, var(--soft-pink), var(--peach));
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            color: white;
-            font-weight: 600;
-        }
-
-        .explorer-body {
-            padding: 20px;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .folder-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            margin-bottom: 10px;
-            background: var(--folder-bg);
-            border-radius: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .folder-item:hover {
-            transform: translateX(5px);
-            border-color: var(--soft-pink);
-        }
-
-        .folder-icon { font-size: 2.5rem; color: var(--soft-pink); }
-
-        .folder-info { flex: 1; }
-
-        .folder-name {
-            font-weight: 700;
-            color: var(--text-dark);
-            font-size: 1.1rem;
-        }
-
-        .folder-count {
-            font-size: 0.85rem;
-            color: var(--text-light);
-        }
-
-        .folder-arrow {
-            font-size: 1.2rem;
-            color: var(--soft-pink);
-            transition: transform 0.3s;
-        }
-
-        .folder-item.open .folder-arrow { transform: rotate(90deg); }
-
-        .folder-content {
-            display: none;
-            padding: 15px;
-            background: rgba(255,228,225,0.3);
-            border-radius: 15px;
-            margin-top: 10px;
-            animation: slideDown 0.4s ease;
-        }
-
-        .folder-content.show { display: block; }
-
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .photos-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        @media (max-width: 600px) {
-            .photos-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        .photo-thumb {
-            aspect-ratio: 1;
-            border-radius: 10px;
-            overflow: hidden;
-            cursor: pointer;
-            background: linear-gradient(135deg, var(--lavender), var(--mint));
-            transition: all 0.3s ease;
-        }
-
-        .photo-thumb:hover { transform: scale(1.05); }
-
-        .photo-thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .photo-thumb .placeholder {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-        }
-
         /* Lightbox */
         .lightbox {
             display: none;
@@ -1614,6 +1496,239 @@
             10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
             20%, 40%, 60%, 80% { transform: translateX(10px); }
         }
+
+        /* ============================================
+        BOOK FRAGMENTS - REPLACING FILE EXPLORATOR
+        ============================================ */
+
+        .book-shelf {
+            background: linear-gradient(180deg, #8B4513 0%, #A0522D 100%);
+            border-radius: 20px;
+            padding: 30px 20px;
+            box-shadow: 
+                0 20px 60px rgba(0,0,0,0.4),
+                inset 0 10px 30px rgba(0,0,0,0.3);
+            border: 8px solid #5D3A1A;
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .book-shelf::before {
+            content: '';
+            position: absolute;
+            top: 33%;
+            left: 0;
+            right: 0;
+            height: 12px;
+            background: linear-gradient(180deg, #5D3A1A 0%, #3D2410 100%);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .book-shelf::after {
+            content: '';
+            position: absolute;
+            top: 66%;
+            left: 0;
+            right: 0;
+            height: 12px;
+            background: linear-gradient(180deg, #5D3A1A 0%, #3D2410 100%);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .shelf-row {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px 0;
+            min-height: 180px;
+            align-items: flex-end;
+        }
+
+        .book-spine {
+            width: 50px;
+            height: 140px;
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0.1) 0%,
+                transparent 10%,
+                transparent 90%,
+                rgba(0,0,0,0.3) 100%
+            );
+            border-radius: 4px 4px 8px 8px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 5px;
+            box-shadow: 
+                -3px 0 10px rgba(0,0,0,0.3),
+                inset 2px 0 5px rgba(255,255,255,0.1);
+        }
+
+        .book-spine:hover {
+            transform: translateY(-20px) rotate(-5deg);
+            box-shadow: 
+                -5px 10px 30px rgba(0,0,0,0.4),
+                inset 2px 0 5px rgba(255,255,255,0.2);
+            z-index: 10;
+        }
+
+        .book-spine::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            bottom: 15px;
+            left: 8px;
+            right: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 2px;
+        }
+
+        .book-spine-title {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-family: 'Caveat', cursive;
+            font-size: 1rem;
+            color: rgba(255,255,255,0.9);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            letter-spacing: 2px;
+            transform: rotate(180deg);
+            max-height: 100px;
+            overflow: hidden;
+        }
+
+        .book-spine-icon {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.5));
+        }
+
+        /* Warna buku berbeda-beda */
+        .book-spine.color-1 { background: linear-gradient(90deg, #8B0000, #A52A2A); }
+        .book-spine.color-2 { background: linear-gradient(90deg, #191970, #4169E1); }
+        .book-spine.color-3 { background: linear-gradient(90deg, #006400, #228B22); }
+        .book-spine.color-4 { background: linear-gradient(90deg, #4B0082, #8A2BE2); }
+        .book-spine.color-5 { background: linear-gradient(90deg, #8B4513, #D2691E); }
+        .book-spine.color-6 { background: linear-gradient(90deg, #2F4F4F, #708090); }
+
+        /* Book Open Animation */
+        .book-open {
+            display: none;
+            background: linear-gradient(90deg, #FFF8DC 0%, #FFF8DC 48%, #E6E6FA 52%, #E6E6FA 100%);
+            border-radius: 0 15px 15px 0;
+            padding: 40px;
+            margin-top: 20px;
+            box-shadow: 
+                0 20px 60px rgba(0,0,0,0.3),
+                inset 30px 0 40px rgba(0,0,0,0.1);
+            position: relative;
+            animation: bookOpen 0.8s ease;
+            min-height: 400px;
+        }
+
+        .book-open.show {
+            display: block;
+        }
+
+        @keyframes bookOpen {
+            from {
+                opacity: 0;
+                transform: perspective(1000px) rotateY(-90deg);
+                transform-origin: left center;
+            }
+            to {
+                opacity: 1;
+                transform: perspective(1000px) rotateY(0deg);
+                transform-origin: left center;
+            }
+        }
+
+        .book-pages {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .book-page-left, .book-page-right {
+            min-height: 300px;
+        }
+
+        .book-page-title {
+            font-family: 'Caveat', cursive;
+            font-size: 1.8rem;
+            color: var(--soft-pink);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .book-photos-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .book-photo {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 3px solid #D4A574;
+            transition: transform 0.3s;
+        }
+
+        .book-photo:hover {
+            transform: scale(1.05);
+        }
+
+        .book-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(20%);
+            transition: filter 0.3s;
+        }
+
+        .book-photo:hover img {
+            filter: sepia(0%);
+        }
+
+        .book-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(139, 69, 19, 0.8);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .book-close-btn:hover {
+            background: #8B4513;
+            transform: rotate(90deg);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .book-spine {
+                width: 40px;
+                height: 110px;
+            }
+            .book-spine-title {
+                font-size: 0.8rem;
+            }
+            .book-pages {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1652,7 +1767,7 @@
 
             <div class="password-hint">
                 <div class="password-hint-label">My Favorite Person</div>
-                <div class="password-hint-text">“It’s the person I think about without realizing it, and the one I don’t want to lose.”</div>
+                <div class="password-hint-text">"It's the person I think about without realizing it, and the one I don't want to lose."</div>
             </div>
         </div>
     </div>
@@ -1686,7 +1801,7 @@
                 </div>
             </div>
 
-            <div class="countdown-date">I don’t know why, but whenever you’re around, everything feels lighter.</div>
+            <div class="countdown-date">I don't know why, but whenever you're around, everything feels lighter.</div>
             
             <div class="countdown-complete" id="countdown-complete">
                 <div class="countdown-icon"></div>
@@ -1716,7 +1831,7 @@
         </div>
 
         <div class="intro-content" id="intro-content">
-            <div class="intro-title" id="intro-title">Yay! It’s Your Special Day! 🎉</div>
+            <div class="intro-title" id="intro-title">Yay! It's Your Special Day! 🎉</div>
             <div class="typewriter" id="typewriter">
                 <span id="type-text"></span><span class="cursor"></span>
             </div>
@@ -1859,16 +1974,29 @@
                 </div>
             </section>
 
-            <!-- GALLERY PAGE -->
+            <!-- GALLERY PAGE - BOOK FRAGMENTS -->
             <section class="page" id="page-gallery">
-                <h2 class="page-title">Gallery 📁</h2>
+                <h2 class="page-title">Fragments of Us 📚</h2>
                 <div class="gallery-container">
-                    <div class="file-explorer">
-                        <div class="explorer-header">
-                            <i class="fas fa-folder-open"></i>
-                            <span></span>
+                    <div class="book-shelf" id="bookShelf">
+                        <!-- Shelf rows generated by JS -->
+                    </div>
+                    
+                    <!-- Open Book Display -->
+                    <div class="book-open" id="bookOpen">
+                        <button class="book-close-btn" onclick="closeBook()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <div class="book-pages">
+                            <div class="book-page-left">
+                                <h3 class="book-page-title" id="bookTitleLeft">Chapter One</h3>
+                                <div class="book-photos-grid" id="bookGridLeft"></div>
+                            </div>
+                            <div class="book-page-right">
+                                <h3 class="book-page-title" id="bookTitleRight">Memories</h3>
+                                <div class="book-photos-grid" id="bookGridRight"></div>
+                            </div>
                         </div>
-                        <div class="explorer-body" id="folderContainer"></div>
                     </div>
                 </div>
             </section>
@@ -1924,7 +2052,7 @@
 
                     <div class="surprise-content" id="surprise">
                         <h2 style="font-family: 'Caveat', cursive; font-size: 2.5rem; color: var(--soft-pink); text-align: center; margin-bottom: 20px;">
-                            I guess… it’s time
+                            I guess… it's time
                         </h2>
                         <p style="text-align: center; margin-bottom: 20px;">
                             Hey… 👀
@@ -1974,72 +2102,11 @@
                 <h2 class="page-title">From Me 💝</h2>
                 <div class="pesan-container">
                     <div class="pesan-card">
-                        <div class="pesan-header">“For you, April 27, 2026 — From me, March 18, 2026”</div>
+                        <div class="pesan-header">"For you, April 27, 2026 — From me, March 18, 2026"</div>
                         
                         <div class="pesan-content">
-                            <p>
-                                
-                            </p>
-
-                            <p>
-                                
-                            </p>
-
-                            <p>
-                                
-                            </p>
-
-                            <p>
-                                
-                            </p>
-
-                            <p>
-                                
-                            </p>
-
-                            <p>
-                                
-                            </p>
-
-                            <p>
-                                
-                            </p>
-
-                            <p>
-                                
-                            </p>
-
-                            <p>
-                                
-                            </p>
-
-                            <p>
-                                
-                            </p>
-
-                            <p>
-                                
-                            </p>
-
-                            <p>
-                                
-                            </p>
-
-                            <p>
-                                
-                            </p>
-
-                            <p>
-                                
-                            </p>
-
-                            <p>
-                                
-                            </p>
-
-                            <p>
-                                
-                            </p>
+                            <p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
+                            <p></p><p></p><p></p><p></p><p></p><p></p><p></p><p></p>
                         </div>
                         
                         <div class="pesan-signature">- Ashar</div>
@@ -2081,19 +2148,16 @@
             const distance = targetDate - now;
 
             if (distance <= 0) {
-                // Countdown selesai!
                 clearInterval(countdownInterval);
                 showUnlockScreen();
                 return;
             }
 
-            // Hitung waktu
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Update tampilan
             document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
             document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
             document.getElementById('cd-minutes').textContent = String(minutes).padStart(2, '0');
@@ -2106,7 +2170,6 @@
             document.querySelector('.countdown-subtitle').style.display = 'none';
             document.getElementById('countdown-complete').style.display = 'block';
             
-            // Efek confetti saat unlock tersedia
             confetti({
                 particleCount: 150,
                 spread: 100,
@@ -2122,7 +2185,6 @@
             const countdownScreen = document.getElementById('countdown-screen');
             const introScreen = document.getElementById('intro-screen');
             
-            // Efek transisi
             countdownScreen.style.transition = 'opacity 0.8s ease';
             countdownScreen.style.opacity = '0';
             
@@ -2130,7 +2192,6 @@
                 countdownScreen.style.display = 'none';
                 introScreen.style.display = 'flex';
                 
-                // Mulai loading screen
                 createStars();
                 createBalloons();
                 startLoading();
@@ -2157,7 +2218,6 @@
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
             
-            // Update sidebar clock
             document.getElementById('sidebar-day').textContent = dayName;
             document.getElementById('sidebar-date').textContent = `${date} ${month} ${year}`;
             document.getElementById('sidebar-hours').textContent = hours;
@@ -2199,15 +2259,12 @@
         }
 
         function navigateTo(page) {
-            // Hide all pages
             document.querySelectorAll('.page').forEach(p => {
                 p.classList.remove('active');
             });
             
-            // Show target page
             document.getElementById(`page-${page}`).classList.add('active');
             
-            // Update nav items
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('active');
                 if (item.dataset.page === page) {
@@ -2217,12 +2274,10 @@
             
             currentPage = page;
             
-            // Close sidebar on mobile
             if (window.innerWidth <= 768 && sidebarOpen) {
                 toggleSidebar();
             }
             
-            // Special effects
             if (page === 'home') {
                 setTimeout(() => shootConfetti(), 300);
             }
@@ -2360,63 +2415,71 @@
         // ============================================
 
         let currentAudio = null;
-               let isPlaying = false;
+        let isPlaying = false;
         let currentSongIndex = 0;
         let giftOpened = false;
-        let openFolder = null;
 
-        const FOLDERS = [
+        // BOOK FRAGMENTS DATA
+        const BOOKS = [
             {
-                name: 'Rinrin yang gemes ',
-                id: 'folder1',
+                title: 'Her Smile',
+                icon: '🌸',
+                color: 'color-1',
                 photos: [
-                    { src: 'static/images/folder1/rinrin 1.jpeg'},
-                    { src: 'static/images/folder1/rinrin 2.jpeg'},
-                    { src: 'static/images/folder1/rinrin 3.jpeg'},
-                    { src: 'static/images/folder1/rinrin 4.jpeg'},
-                    { src: 'static/images/folder1/rinrin 5.jpeg'},
-                    { src: 'static/images/folder1/rinrin 6.jpeg'},
-                    { src: 'static/images/folder1/rinrin 7.jpeg'},
-                    { src: 'static/images/folder1/rinrin 8.jpeg'},
-                    { src: 'static/images/folder1/rinrin 10.jpeg'},
-                    { src: 'static/images/folder1/rinrin 11.jpeg'},
-                    { src: 'static/images/folder1/rinrin 12.jpeg'},
-                    { src: 'static/images/folder1/rinrin 13.jpeg'},
-                    { src: 'static/images/folder1/rinrin 14.jpeg'},
-                    { src: 'static/images/folder1/rinrin 15.jpeg'},
-                    { src: 'static/images/folder1/rinrin 16.jpeg'},
-                    { src: 'static/images/folder1/rinrin 17.jpeg'},
-                    { src: 'static/images/folder1/rinrin 18.jpeg'},
-                    { src: 'static/images/folder1/rinrin 19.jpeg'},
-                    { src: 'static/images/folder1/rinrin 20.jpeg'}
+                    { src: 'static/images/folder1/rinrin 1.jpeg', caption: 'That day' },
+                    { src: 'static/images/folder1/rinrin 2.jpeg', caption: 'Beautiful' },
+                    { src: 'static/images/folder1/rinrin 3.jpeg', caption: 'Moment' },
+                    { src: 'static/images/folder1/rinrin 4.jpeg', caption: 'Captured' },
+                    { src: 'static/images/folder1/rinrin 5.jpeg', caption: 'Forever' },
+                    { src: 'static/images/folder1/rinrin 6.jpeg', caption: 'In heart' }
                 ]
             },
             {
-                name: 'Impian kamu 💼✨',
-                id: 'folder2',
+                title: 'Dreams',
+                icon: '✨',
+                color: 'color-2',
                 photos: [
-                    { src: 'static/images/folder2/dream 1.jpeg'},
-                    { src: 'static/images/folder2/dream 2.jpeg'},
-                    { src: 'static/images/folder2/dream 3.jpeg'},
-                    { src: 'static/images/folder2/dream 4.jpeg'},
-                    { src: 'static/images/folder2/dream 5.jpeg'},
-                    { src: 'static/images/folder2/dream 6.jpeg'},
-                    { src: 'static/images/folder2/dream 7.jpeg'},
-                    { src: 'static/images/folder2/dream 8.jpeg'},
-                    { src: 'static/images/folder2/dream 9.jpeg'}
+                    { src: 'static/images/folder2/dream 1.jpeg', caption: 'Ambition' },
+                    { src: 'static/images/folder2/dream 2.jpeg', caption: 'Future' },
+                    { src: 'static/images/folder2/dream 3.jpeg', caption: 'Together' },
+                    { src: 'static/images/folder2/dream 4.jpeg', caption: 'Maybe' }
                 ]
             },
             {
-                name: 'Negara Impian Kamu ✈️🌏',
-                id: 'folder3',
+                title: 'Far Away',
+                icon: '🌍',
+                color: 'color-3',
                 photos: [
-                    { src: 'static/images/folder3/russia 1.jpeg'},
-                    { src: 'static/images/folder3/russia 2.jpeg'},
-                    { src: 'static/images/folder3/russia 3.jpeg'},
-                    { src: 'static/images/folder3/swiss 1.jpeg'},
-                    { src: 'static/images/folder3/swiss 2.jpeg'},
-                    { src: 'static/images/folder3/swiss 3.jpeg'}
-                ],
+                    { src: 'static/images/folder3/russia 1.jpeg', caption: 'Someday' },
+                    { src: 'static/images/folder3/russia 2.jpeg', caption: 'We will' },
+                    { src: 'static/images/folder3/swiss 1.jpeg', caption: 'Be there' }
+                ]
+            },
+            {
+                title: 'Letters',
+                icon: '💌',
+                color: 'color-4',
+                photos: [
+                    { src: 'static/images/letters/letter1.jpg', caption: 'Unsent' },
+                    { src: 'static/images/letters/letter2.jpg', caption: 'Words' }
+                ]
+            },
+            {
+                title: 'Random',
+                icon: '🎲',
+                color: 'color-5',
+                photos: [
+                    { src: 'static/images/random/pic1.jpg', caption: 'Us' },
+                    { src: 'static/images/random/pic2.jpg', caption: 'Chaos' }
+                ]
+            },
+            {
+                title: 'Secrets',
+                icon: '🔒',
+                color: 'color-6',
+                photos: [
+                    { src: 'static/images/secret/hidden1.jpg', caption: 'Shh..' }
+                ]
             }
         ];
 
@@ -2429,93 +2492,108 @@
         ];
 
         function initApp() {
-            renderFolders();
+            renderBooks();
             renderSongs();
             setTimeout(() => shootConfetti(), 500);
         }
 
-        function renderFolders() {
-            const container = document.getElementById('folderContainer');
-            container.innerHTML = '';
+        // ============================================
+        // BOOK FRAGMENTS FUNCTIONS
+        // ============================================
 
-            FOLDERS.forEach(folder => {
-                const folderEl = document.createElement('div');
-                folderEl.className = 'folder-wrapper';
+        function renderBooks() {
+            const shelf = document.getElementById('bookShelf');
+            shelf.innerHTML = '';
+            
+            const rows = [BOOKS.slice(0, 3), BOOKS.slice(3, 6)];
+            
+            rows.forEach((rowBooks) => {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'shelf-row';
                 
-                folderEl.innerHTML = `
-                    <div class="folder-item" onclick="toggleFolder('${folder.id}')">
-                        <div class="folder-icon">📁</div>
-                        <div class="folder-info">
-                            <div class="folder-name">${folder.name}</div>
-                            <div class="folder-count">${folder.photos.length} foto</div>
-                        </div>
-                        <i class="fas fa-chevron-right folder-arrow" id="arrow-${folder.id}"></i>
-                    </div>
-                    <div class="folder-content" id="content-${folder.id}">
-                        <div class="photos-grid" id="grid-${folder.id}"></div>
-                    </div>
-                `;
+                rowBooks.forEach((book) => {
+                    const spine = document.createElement('div');
+                    spine.className = `book-spine ${book.color}`;
+                    spine.onclick = () => openBook(book);
+                    
+                    spine.innerHTML = `
+                        <div class="book-spine-icon">${book.icon}</div>
+                        <div class="book-spine-title">${book.title}</div>
+                    `;
+                    
+                    rowDiv.appendChild(spine);
+                });
                 
-                container.appendChild(folderEl);
-                loadFolderPhotos(folder);
+                shelf.appendChild(rowDiv);
             });
         }
 
-        function loadFolderPhotos(folder) {
-            const grid = document.getElementById(`grid-${folder.id}`);
+        function openBook(book) {
+            const bookOpen = document.getElementById('bookOpen');
+            const shelf = document.getElementById('bookShelf');
             
-            folder.photos.forEach((photo) => {
-                const thumb = document.createElement('div');
-                thumb.className = 'photo-thumb';
+            shelf.style.display = 'none';
+            bookOpen.classList.add('show');
+            
+            document.getElementById('bookTitleLeft').textContent = book.title;
+            document.getElementById('bookTitleRight').textContent = 'Pages of Us';
+            
+            const mid = Math.ceil(book.photos.length / 2);
+            const leftPhotos = book.photos.slice(0, mid);
+            const rightPhotos = book.photos.slice(mid);
+            
+            renderBookPage('bookGridLeft', leftPhotos);
+            renderBookPage('bookGridRight', rightPhotos);
+            
+            showToast(`Opening: ${book.title} ${book.icon}`);
+            
+            confetti({
+                particleCount: 50,
+                spread: 60,
+                origin: { y: 0.5 },
+                colors: ['#8B4513', '#D4A574', '#FFF8DC']
+            });
+        }
+
+        function renderBookPage(gridId, photos) {
+            const grid = document.getElementById(gridId);
+            grid.innerHTML = '';
+            
+            photos.forEach(photo => {
+                const div = document.createElement('div');
+                div.className = 'book-photo';
                 
                 const img = new Image();
-                img.onload = function() {
-                    thumb.innerHTML = `<img src="${photo.src}" alt="${photo.caption}">`;
+                img.onload = () => {
+                    div.innerHTML = `<img src="${photo.src}" alt="${photo.caption}">`;
                 };
-                img.onerror = function() {
-                    thumb.innerHTML = `<div class="placeholder"><span>📷</span></div>`;
+                img.onerror = () => {
+                    div.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#8B4513;">📷</div>`;
                 };
                 img.src = photo.src;
                 
-                thumb.onclick = function(e) {
-                    e.stopPropagation();
-                    openLightbox(photo.src, photo.caption);
-                };
-                
-                grid.appendChild(thumb);
+                div.onclick = () => openLightbox(photo.src, photo.caption);
+                grid.appendChild(div);
             });
         }
 
-        function toggleFolder(folderId) {
-            const content = document.getElementById(`content-${folderId}`);
-            const arrow = document.getElementById(`arrow-${folderId}`);
-            const folderItem = arrow.closest('.folder-item');
+        function closeBook() {
+            const bookOpen = document.getElementById('bookOpen');
+            const shelf = document.getElementById('bookShelf');
             
-            if (openFolder && openFolder !== folderId) {
-                document.getElementById(`content-${openFolder}`).classList.remove('show');
-                document.getElementById(`arrow-${openFolder}`).style.transform = 'rotate(0deg)';
-                document.getElementById(`arrow-${openFolder}`).closest('.folder-item').classList.remove('open');
-            }
+            bookOpen.classList.remove('show');
+            shelf.style.display = 'block';
             
-            if (content.classList.contains('show')) {
-                content.classList.remove('show');
-                arrow.style.transform = 'rotate(0deg)';
-                folderItem.classList.remove('open');
-                openFolder = null;
-            } else {
-                content.classList.add('show');
-                arrow.style.transform = 'rotate(90deg)';
-                folderItem.classList.add('open');
-                openFolder = folderId;
-                
-                confetti({
-                    particleCount: 30,
-                    spread: 50,
-                    origin: { y: 0.5 },
-                    colors: ['#FFB6C1', '#E6E6FA', '#98FF98']
-                });
-            }
+            setTimeout(() => {
+                shelf.style.animation = 'none';
+                shelf.offsetHeight;
+                shelf.style.animation = 'fadeIn 0.5s ease';
+            }, 100);
         }
+
+        // ============================================
+        // LIGHTBOX FUNCTIONS
+        // ============================================
 
         function openLightbox(src, caption) {
             document.getElementById('lightboxImg').src = src;
@@ -2527,6 +2605,10 @@
                 document.getElementById('lightbox').classList.remove('show');
             }
         }
+
+        // ============================================
+        // MUSIC FUNCTIONS
+        // ============================================
 
         function renderSongs() {
             const songList = document.getElementById('songList');
@@ -2546,6 +2628,75 @@
                 songList.appendChild(item);
             });
         }
+
+        function selectSong(index) {
+            currentSongIndex = index;
+            
+            document.querySelectorAll('.song-item').forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+
+            if(currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
+            }
+
+            const song = STATIC_SONGS[index];
+            currentAudio = new Audio(song.path);
+            currentAudio.loop = false;
+            
+            document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i> Play';
+            isPlaying = false;
+            
+            currentAudio.ontimeupdate = function() {
+                if(currentAudio.duration) {
+                    const progress = (currentAudio.currentTime / currentAudio.duration) * 100;
+                    document.getElementById('progress').style.width = progress + '%';
+                }
+            };
+            
+            currentAudio.onended = function() {
+                isPlaying = false;
+                document.getElementById('vinyl').classList.remove('playing');
+                document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i> Play';
+                document.getElementById('progress').style.width = '0%';
+            };
+
+            showToast(`${song.title}`);
+        }
+
+        function togglePlay() {
+            if(!currentAudio) {
+                selectSong(0);
+                return;
+            }
+
+            if(isPlaying) {
+                currentAudio.pause();
+                document.getElementById('vinyl').classList.remove('playing');
+                document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i> Play';
+                isPlaying = false;
+            } else {
+                currentAudio.play().catch(e => {
+                    showToast('File not found 🎵');
+                });
+                document.getElementById('vinyl').classList.add('playing');
+                document.getElementById('playBtn').innerHTML = '<i class="fas fa-pause"></i> Pause';
+                isPlaying = true;
+            }
+        }
+
+        function seek(e) {
+            if(currentAudio && currentAudio.duration) {
+                const rect = e.target.getBoundingClientRect();
+                const pos = (e.clientX - rect.left) / rect.width;
+                currentAudio.currentTime = pos * currentAudio.duration;
+            }
+        }
+
+        // ============================================
+        // UTILITY FUNCTIONS
+        // ============================================
 
         function shootConfetti() {
             const colors = ['#FFB6C1', '#E6E6FA', '#98FF98', '#FFDAB9', '#FF6B9D'];
@@ -2577,71 +2728,6 @@
             }
         }
 
-        function selectSong(index) {
-            currentSongIndex = index;
-            
-            document.querySelectorAll('.song-item').forEach((item, i) => {
-                item.classList.toggle('active', i === index);
-            });
-
-            if(currentAudio) {
-                currentAudio.pause();
-                currentAudio = null;
-            }
-
-            const song = STATIC_SONGS[index];
-            currentAudio = new Audio(song.path);
-            currentAudio.loop = false;
-            
-            document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i> Putar Lagu';
-            isPlaying = false;
-            
-            currentAudio.ontimeupdate = function() {
-                if(currentAudio.duration) {
-                    const progress = (currentAudio.currentTime / currentAudio.duration) * 100;
-                    document.getElementById('progress').style.width = progress + '%';
-                }
-            };
-            
-            currentAudio.onended = function() {
-                isPlaying = false;
-                document.getElementById('vinyl').classList.remove('playing');
-                document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i> Putar Lagu';
-                document.getElementById('progress').style.width = '0%';
-            };
-
-            showToast(`${song.title}`);
-        }
-
-        function togglePlay() {
-            if(!currentAudio) {
-                selectSong(0);
-                return;
-            }
-
-            if(isPlaying) {
-                currentAudio.pause();
-                document.getElementById('vinyl').classList.remove('playing');
-                document.getElementById('playBtn').innerHTML = '<i class="fas fa-play"></i> Putar Lagu';
-                isPlaying = false;
-            } else {
-                currentAudio.play().catch(e => {
-                    showToast('File lagu tidak ditemukan 🎵');
-                });
-                document.getElementById('vinyl').classList.add('playing');
-                document.getElementById('playBtn').innerHTML = '<i class="fas fa-pause"></i> Pause';
-                isPlaying = true;
-            }
-        }
-
-        function seek(e) {
-            if(currentAudio && currentAudio.duration) {
-                const rect = e.target.getBoundingClientRect();
-                const pos = (e.clientX - rect.left) / rect.width;
-                currentAudio.currentTime = pos * currentAudio.duration;
-            }
-        }
-
         function openGift(box) {
             if(!box.classList.contains('opened') && !giftOpened) {
                 box.classList.add('opened');
@@ -2665,7 +2751,7 @@
                     box.style.display = 'none';
                 }, 600);
                 
-                showToast('Terbuka! 🎁');
+                showToast('Opened! 🎁');
             }
         }
 
@@ -2686,35 +2772,12 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        // Close sidebar when clicking outside on mobile
-        document.addEventListener('click', function(e) {
-            const sidebar = document.getElementById('sidebar');
-            const toggle = document.getElementById('menu-toggle');
-            
-            if (window.innerWidth <= 768 && sidebarOpen) {
-                if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
-                    toggleSidebar();
-                }
-            }
-        });
-
         // ============================================
-        // INITIALIZE COUNTDOWN ON LOAD
+        // PASSWORD FUNCTIONALITY
         // ============================================
         
-        window.onload = function() {
-            createCountdownStars();
-            updateCountdown();
-            countdownInterval = setInterval(updateCountdown, 1000);
-        };
-
-        // ============================================
-        // PASSWORD FUNCTIONALITY - PALING PALING AWAL
-        // ============================================
-        
-        // GANTI INI DENGAN PASSWORD YANG KAMU MAU
         const CORRECT_PASSWORD = "You are mine until the end";
-        const BYPASS_PASSWORD = "My Adorable Girl"; // password untuk skip countdown
+        const BYPASS_PASSWORD = "My Adorable Girl";
         
         let passwordVerified = false;
 
@@ -2746,90 +2809,85 @@
         }
 
         function checkPassword() {
-        const input = document.getElementById('password-input');
-        const error = document.getElementById('password-error');
-        const btn = document.getElementById('password-btn');
-        const password = input.value.trim();
+            const input = document.getElementById('password-input');
+            const error = document.getElementById('password-error');
+            const btn = document.getElementById('password-btn');
+            const password = input.value.trim();
 
-        if (password === CORRECT_PASSWORD) {
-            // Password normal - lanjut ke countdown
-            passwordVerified = true;
-            btn.innerHTML = '<i class="fas fa-check"></i> Success!';
-            btn.style.background = 'linear-gradient(135deg, #98FF98, #90EE90)';
-            
-            confetti({
-                particleCount: 150,
-                spread: 100,
-                origin: { y: 0.6 },
-                colors: ['#98FF98', '#FFB6C1', '#E6E6FA', '#FFDAB9', '#FFF']
-            });
-
-            setTimeout(() => {
-                const passwordScreen = document.getElementById('password-screen');
-                passwordScreen.style.transition = 'opacity 0.8s ease';
-                passwordScreen.style.opacity = '0';
+            if (password === CORRECT_PASSWORD) {
+                passwordVerified = true;
+                btn.innerHTML = '<i class="fas fa-check"></i> Success!';
+                btn.style.background = 'linear-gradient(135deg, #98FF98, #90EE90)';
                 
+                confetti({
+                    particleCount: 150,
+                    spread: 100,
+                    origin: { y: 0.6 },
+                    colors: ['#98FF98', '#FFB6C1', '#E6E6FA', '#FFDAB9', '#FFF']
+                });
+
                 setTimeout(() => {
-                    passwordScreen.style.display = 'none';
-                    initCountdown(); // ke countdown
-                }, 800);
-            }, 1000);
-            
-        } else if (password === BYPASS_PASSWORD) {
-            // BYPASS - langsung ke intro/loading screen, skip countdown!
-            passwordVerified = true;
-            btn.innerHTML = '<i class="fas fa-bolt"></i> VIP Access!';
-            btn.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
-            
-            confetti({
-                particleCount: 200,
-                spread: 120,
-                origin: { y: 0.6 },
-                colors: ['#FFD700', '#FFA500', '#FFB6C1', '#FFF']
-            });
-
-            setTimeout(() => {
-                const passwordScreen = document.getElementById('password-screen');
-                const countdownScreen = document.getElementById('countdown-screen');
-                const introScreen = document.getElementById('intro-screen');
-                
-                passwordScreen.style.transition = 'opacity 0.8s ease';
-                passwordScreen.style.opacity = '0';
-                
-                setTimeout(() => {
-                    passwordScreen.style.display = 'none';
-                    countdownScreen.style.display = 'none'; // SKIP countdown!
-                    introScreen.style.display = 'flex'; // langsung ke intro
+                    const passwordScreen = document.getElementById('password-screen');
+                    passwordScreen.style.transition = 'opacity 0.8s ease';
+                    passwordScreen.style.opacity = '0';
                     
-                    // Mulai loading screen
-                    createStars();
-                    createBalloons();
-                    startLoading();
-                }, 800);
-            }, 1000);
-            
-        } else {
-            // Password salah
-            input.classList.add('shake');
-            error.classList.add('show');
-            input.value = '';
-            input.focus();
-            
-            confetti({
-                particleCount: 30,
-                spread: 50,
-                origin: { y: 0.6 },
-                colors: ['#ff6b6b', '#ff8e8e']
-            });
-            
-            setTimeout(() => {
-                input.classList.remove('shake');
-                error.classList.remove('show');
-            }, 2000);
-        }
-    }
+                    setTimeout(() => {
+                        passwordScreen.style.display = 'none';
+                        initCountdown();
+                    }, 800);
+                }, 1000);
+                
+            } else if (password === BYPASS_PASSWORD) {
+                passwordVerified = true;
+                btn.innerHTML = '<i class="fas fa-bolt"></i> VIP Access!';
+                btn.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
+                
+                confetti({
+                    particleCount: 200,
+                    spread: 120,
+                    origin: { y: 0.6 },
+                    colors: ['#FFD700', '#FFA500', '#FFB6C1', '#FFF']
+                });
 
-        // Enter key untuk submit
+                setTimeout(() => {
+                    const passwordScreen = document.getElementById('password-screen');
+                    const countdownScreen = document.getElementById('countdown-screen');
+                    const introScreen = document.getElementById('intro-screen');
+                    
+                    passwordScreen.style.transition = 'opacity 0.8s ease';
+                    passwordScreen.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        passwordScreen.style.display = 'none';
+                        countdownScreen.style.display = 'none';
+                        introScreen.style.display = 'flex';
+                        
+                        createStars();
+                        createBalloons();
+                        startLoading();
+                    }, 800);
+                }, 1000);
+                
+            } else {
+                input.classList.add('shake');
+                error.classList.add('show');
+                input.value = '';
+                input.focus();
+                
+                confetti({
+                    particleCount: 30,
+                    spread: 50,
+                    origin: { y: 0.6 },
+                    colors: ['#ff6b6b', '#ff8e8e']
+                });
+                
+                setTimeout(() => {
+                    input.classList.remove('shake');
+                    error.classList.remove('show');
+                }, 2000);
+            }
+        }
+
         document.getElementById('password-input').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 checkPassword();
@@ -2837,17 +2895,25 @@
         });
 
         function initCountdown() {
-            // Pindahkan semua inisialisasi countdown ke sini
             createCountdownStars();
             updateCountdown();
             countdownInterval = setInterval(updateCountdown, 1000);
         }
 
-        // MODIFIKASI window.onload jadi gini:
         window.onload = function() {
             createPasswordStars();
-            // Countdown nggak di-start dulu, nunggu password
         };
+
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.getElementById('menu-toggle');
+            
+            if (window.innerWidth <= 768 && sidebarOpen) {
+                if (!sidebar.contains(e.target) && !toggle.contains(e.target)) {
+                    toggleSidebar();
+                }
+            }
+        });
     </script>
 </body>
 </html>
